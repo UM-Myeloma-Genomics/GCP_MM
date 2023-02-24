@@ -2,9 +2,9 @@
 
 The genomic folder consists of: </p>
 *  `input` folder with test input files,
-*  **Reference** folder with all references,
-*  **output** folder,
-*  **scripts** folder.
+*  `Reference` folder with all references,
+*  `output` folder,
+*  `scripts` folder.
 
 The code allow you to generate the matrix for the prediction model algorithm. </p>
 
@@ -21,4 +21,4 @@ Brief summary of each R file:
 - 4.MutationalSignature.R -> to identify APOBEC using mmsig.
 - 5.Matrix_generation.R -> to assemble the final matrix using the intermediate files previously created.
  
-When you run all these codes, the intermediate outputs will be created in the **output** folder, while the final matrix will be generated in the "genomic" folder.
+When you run all these codes, the intermediate outputs will be created in the `output` folder, while the final matrix will be generated in the `genomic` folder.
