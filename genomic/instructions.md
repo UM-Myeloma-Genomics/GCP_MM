@@ -1,7 +1,7 @@
 # **Matrix genartion**
 
 The genomic folder consists of: </p>
-*  **input** folder with test input files,
+*  `input` folder with test input files,
 *  **Reference** folder with all references,
 *  **output** folder,
 *  **scripts** folder.
