@@ -746,9 +746,14 @@ rownames(hyper.2)=c(1:length(hyper.2$sample))
 #hyper1=hyper1[hyper1$seg.gain.sum>=SUM,]
 
 no.hyper=as.data.frame(no.hyperdiploid)
-colnames(no.hyper)="sample"
+if(length(no.hyper)>0){
+  colnames(no.hyper)="sample"  
+}
 no.hyper1=as.data.frame(no.hyperdiploid.1)
-colnames(no.hyper1)="sample"
+if(length(no.hyper1)>0){
+  colnames(no.hyper1)="sample"  
+}
+
 
 no.hyper.1=rbind(no.hyper,no.hyper1)
 no.hyper.1$Cytogenetic="No_HRD"
