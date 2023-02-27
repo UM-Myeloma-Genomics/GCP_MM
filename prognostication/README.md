@@ -1,4 +1,4 @@
-# Folder structure
+## Folder structure
 
 ```
 /code
