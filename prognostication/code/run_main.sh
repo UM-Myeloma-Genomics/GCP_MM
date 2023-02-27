@@ -36,7 +36,6 @@ path_treat_preds="$path_data_out/preds_treatment"
 
 mkdir -p $out_dir $path_data_out $path_plots $path_permut $path_permut_feat_agg $path_permut_feat_compose "$path_data_out/feat_matrix" $path_model_preds $path_os_multistate_preds $path_efs_multistate_preds "$path_data_out/kfold/metrics/model_feat_combo" "$path_data_out/kfold/metrics/model_genomics" $path_permut_feat_agg $path_permut_feat_compose "$path_data_out/shap_feat_imps" $path_loo_model_preds $path_loo_state_preds $path_treat_preds $path_permut_feat_agg_reranked $path_all_states_multistate_preds
 
-# func
 task(){
   current_dir=$(pwd)
   group_id=${1}
@@ -64,7 +63,6 @@ task(){
 
 }
 
-# func
 get_best_gen_feats(){
   folds=$1
   repeats=$2
@@ -93,7 +91,7 @@ CUDA_VISIBLE_DEVICES=0 python3 "$current_dir/code/kfold_model_train_preds.py" --
 
 ###### ISS/R-ISS/R2-ISS
 
-# python3 "$current_dir/code/create_feature_combo_matrix.py" --path $path_data_out --legend $path_data_legend --permut_feat_path $path_permut_feat_agg --iss_feat_groups
+python3 "$current_dir/code/create_feature_combo_matrix.py" --path $path_data_out --legend $path_data_legend --permut_feat_path $path_permut_feat_agg --iss_feat_groups
 
 task "0" "$folds" "$repeats" "cph" "$total_splits" "$ext_val" &
 task "1" "$folds" "$repeats" "cph" "$total_splits" "$ext_val" &
@@ -119,9 +117,9 @@ python3 "$current_dir/code/metrics.py" --surv_model $model --in_data_file $path_
 ###### Aggregate --> score --> rank
 # create feature combinations to feed the right slices of features to train models
 
-: '
 python3 "$current_dir/code/create_feature_combo_matrix.py" --path $path_data_out --legend $path_data_legend --permut_feat_path_reranked $path_permut_feat_agg_reranked --iss_feat_groups --all_feat_groups --permut_feat_path $path_permut_feat_agg --reverse_order
 
+# check file: create_feature_combo_matrix.py for info about what feature(s) task "id" has by going to the "id"th row 
 task "10" "$folds" "$repeats" "cph" "$total_splits" "$ext_val" & 
 
 master_file="$path_data_out/feat_matrix/main_keeper.csv"
@@ -139,11 +137,8 @@ for group_id in $(seq 3 $total_jobs_count); do
    fi
 
 done 
-)
-'
 
-: '
-# external test set
+# after training, c-index for external test set
 task "9" "$folds" "$repeats" "$model" "$total_splits" "Yes" &
 task "2" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
 task "100" "$folds" "$repeats" "$model" "$total_splits" "Yes" &
@@ -151,9 +146,7 @@ task "100" "$folds" "$repeats" "rsf" "$total_splits" "Yes" &
 task "100" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
 task "0" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
 task "1" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
-'
 
-: '
 ###### Treatment predictions
 # loo predictions
 indiv_treat_preds(){
@@ -161,7 +154,7 @@ indiv_treat_preds(){
   Rscript "$current_dir/code/loo_treatment_combo_mstate_risks.r" --sample_id $1 --base_path $path_loo_model_preds --code_path "$current_dir/code/" --output_path $path_loo_state_preds --model $model
 }
 
-# python3 "$current_dir/code/viz_diff_combo.py" --in_data_file $path_data_in --path $path_data_out  --get_treat_stats
+python3 "$current_dir/code/viz_diff_combo.py" --in_data_file $path_data_in --path $path_data_out  --get_treat_stats
 
 # predictions on specified patient IDs
 filename="$path_treat_preds/patients.txt"
@@ -179,4 +172,5 @@ for num_pat in $(seq 0 $total_pats); do
    indiv_treat_preds "${pat_ids[num_pat]}" "9" &
 done
 )
-'
+
+
