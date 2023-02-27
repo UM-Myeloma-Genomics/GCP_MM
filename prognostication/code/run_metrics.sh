@@ -20,16 +20,14 @@ path_permut_feat_agg="$path_permut/aggregate/"
 path_model_preds="$path_data_out/kfold/model_probs/"
 path_plots="$path_data_out/plots"
 
-time=365
+time=365 # induction cut-off
 
 c_index_type="C_index_harrell"
 
-: '
 ##### c-index (cross-validated)
 python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --outcome "os" --group_feat_add "0~1~2~3~4~5~6~7~8~9~10~11~12~13~14~15~16~17~18~19~20~21~22~100" --get_metric $c_index_type --c_index_group_addition &
 
 python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --outcome "efs" --group_feat_add "0~1~2~3~4~5~6~7~8~9~10~11~12~13~14~15~16~17~18~19~20~21~22~100" --get_metric $c_index_type --c_index_group_addition &
-'
 
 ##### external test set
 python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --outcome "os" --group_feat_add "0~1~2~9~100" --get_metric $c_index_type --ext_val --c_index_group_addition &
@@ -37,15 +35,14 @@ python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_d
 python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --outcome "efs" --group_feat_add "0~1~2~9~100" --get_metric $c_index_type --ext_val --c_index_group_addition &
 
 ##### average risk & mean frac of patients plot 
-# python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --get_frac_plot &
+python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --get_frac_plot &
 
-# python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --get_risk_scores &
+python3 $(pwd)/code/metrics.py --preds_time_in_days $time --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --get_risk_scores &
 
-: '
+##### treatment predictions
 python3 $(pwd)/code/viz_diff_combo.py --pred_risk_at $time --outcome "risk_pfs" --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --plot_treat_combo_all_pats &
 
 ##### predictions on external test set
 python3 $(pwd)/code/viz_diff_combo.py --pred_risk_at $time --outcome "risk_pfs" --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --plot_treat_combo_indiv_pat --ext_val &
-'
 
 
