@@ -19,6 +19,6 @@ Brief summary of each R file:
 - 2.Cytogenetic_abnormalies.R -> with this code you can create the HRD, other GISTIC peak, 1q peak and translocation matrix.
 - 3.Mutated_genes.R -> you can create the ONCOGENES, Tumor Suppressor Genes (TSGs), OTHER genes and CHRX (genes in chrX, we consider only - mutations and no copy-numbers) matrix.
 - 4.MutationalSignature.R -> to identify APOBEC using mmsig.
-- 5.Matrix_generation.R -> to assemble the final matrix using the intermediate files previously created.
+- 5.Matrix_generation.R -> to assemble the final matrix using the intermediate files previously created. To have the final columns follow the Supplementary Data 1.
  
 When you run all these codes, the intermediate outputs will be created in the `output` folder, while the final matrix will be generated in the `genomic` folder.
