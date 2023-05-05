@@ -152,6 +152,7 @@ for(j in 1:length(list.txt)){
   if(length(missing.samples.amp)>0){
     mis.amp.mtx=matrix(NA,nrow=length(rownames(amp.mtx)),ncol=length(missing.samples.amp))
     mis.amp.mtx=ifelse(is.na(mis.amp.mtx),0,mis.amp.mtx)
+    colnames(mis.amp.mtx)=missing.samples.amp
     amp.mtx1=cbind(amp.mtx,mis.amp.mtx)
   }else{
     amp.mtx1=amp.mtx
@@ -211,6 +212,7 @@ for(j in 1:length(list.txt)){
   if(length(missing.samples.del)>0){
     mis.del.mtx=matrix(NA,nrow=length(rownames(del.mtx)),ncol=length(missing.samples.del))
     mis.del.mtx=ifelse(is.na(mis.del.mtx),0,mis.del.mtx)
+    colnames(mis.del.mtx)=missing.samples.del
     del.mtx1=cbind(del.mtx,mis.del.mtx)
   }else{
     del.mtx1=del.mtx
@@ -498,37 +500,17 @@ hyper.new.2=hyper.new.1[complete.cases(hyper.new.1$CN.median),]
 hyper.new.2$arm.gain=ifelse(hyper.new.2$seg.gain.prop>PERCENTAGE,1,0)
 hyper.new.2$chr.gain=ifelse(hyper.new.2$perc.gain.chr>PERCENTAGE,1,0)
 head(hyper.new.2)
-# #########
-# # . . # # Understand
-# #     # #
-# ####################
-# head(hyper.new.2[hyper.new.2$arm.gain==1 & hyper.new.2$chr.gain==0,])
-# hyper.new.2[hyper.new.2$sample=="PD5858a" & hyper.new.2$chromosome==1,]
-# # non hanno nessun gain nell'altro arm
-# head(hyper.new.2[hyper.new.2$arm.gain==0 & hyper.new.2$chr.gain==1,])
-# table(hyper.new.2$arm.gain)
-# #0     1 
-# #5317 12606 
-# table(hyper.new.2$chr.gain)
-# #0     1 
-# #6027 11896 
-# table(hyper.new.2$chr.gain,hyper.new.2$arm.gain)
-# #              ARM
-# #            0     1
-# #  C   0  4813  1214
-# #  H   
-# #  R   1   504 11392
 
 hyper=hyper.new.2[hyper.new.2$chr.gain==1,]
 #####################
 ######## --- .                 Hyperdiploid and DoubleGenome identification  (and no.hyperdiploid)
-chroms.hyper=c(3,5,7,9,11,15,19,21)
+chroms.hyper=c(3,5,7,9,11,15,18,19,21)
 samples=unique(hyper$sample)
 hyper.1=NULL
 no.hyperdiploid.1=NULL
 for(iii in 1:length(samples)){
   hyper.s=hyper[hyper$sample==samples[iii],]
-  if(sum(hyper.s[,"arm.gain"])>30){
+  if(sum(hyper.s[,"chr.gain"])>20){
     sam=unique(hyper.s$sample)
     type=unique(hyper.s$type)
     whole.median.CN=median(as.numeric(as.character(hyper.s$CN.median)),na.rm = T)
@@ -552,13 +534,18 @@ for(iii in 1:length(samples)){
     chr15.p=hyper.s[hyper.s$chromosome==15 & hyper.s$arm=="p",]
     seg.gain.pro.chr15.p=ifelse(chr15.p$chromosome==15,chr15.p$seg.gain.prop,NA)
     seg.gain.pro.chr15.p[length(seg.gain.pro.chr15.p)==0]=NA
+    
+    chr18.p=hyper.s[hyper.s$chromosome==18 & hyper.s$arm=="p",]
+    seg.gain.pro.chr18.p=ifelse(chr18.p$chromosome==18,chr18.p$seg.gain.prop,NA)
+    seg.gain.pro.chr18.p[length(seg.gain.pro.chr18.p)==0]=NA
+    
     chr19.p=hyper.s[hyper.s$chromosome==19 & hyper.s$arm=="p",]
     seg.gain.pro.chr19.p=ifelse(chr19.p$chromosome==19,chr19.p$seg.gain.prop,NA)
     seg.gain.pro.chr19.p[length(seg.gain.pro.chr19.p)==0]=NA
     chr21.p=hyper.s[hyper.s$chromosome==21 & hyper.s$arm=="p",]
     seg.gain.pro.chr21.p=ifelse(chr21.p$chromosome==21,chr21.p$seg.gain.prop,NA)
     seg.gain.pro.chr21.p[length(seg.gain.pro.chr21.p)==0]=NA
-    # . q arm  
+    # . q arm
     chr3.q=hyper.s[hyper.s$chromosome==3 & hyper.s$arm=="q",]
     seg.gain.pro.chr3.q=ifelse(chr3.q$chromosome==3,chr3.q$seg.gain.prop,NA)
     seg.gain.pro.chr3.q[length(seg.gain.pro.chr3.q)==0]=NA
@@ -577,6 +564,11 @@ for(iii in 1:length(samples)){
     chr15.q=hyper.s[hyper.s$chromosome==15 & hyper.s$arm=="q",]
     seg.gain.pro.chr15.q=ifelse(chr15.q$chromosome==15,chr15.q$seg.gain.prop,NA)
     seg.gain.pro.chr15.q[length(seg.gain.pro.chr15.q)==0]=NA
+    
+    chr18.q=hyper.s[hyper.s$chromosome==18 & hyper.s$arm=="q",]
+    seg.gain.pro.chr18.q=ifelse(chr18.q$chromosome==18,chr18.q$seg.gain.prop,NA)
+    seg.gain.pro.chr18.q[length(seg.gain.pro.chr18.q)==0]=NA
+    
     chr19.q=hyper.s[hyper.s$chromosome==19 & hyper.s$arm=="q",]
     seg.gain.pro.chr19.q=ifelse(chr19.q$chromosome==19,chr19.q$seg.gain.prop,NA)
     seg.gain.pro.chr19.q[length(seg.gain.pro.chr19.q)==0]=NA
@@ -596,6 +588,10 @@ for(iii in 1:length(samples)){
     perc.gain.chr11[length(perc.gain.chr11)==0]=NA
     perc.gain.chr15=unique(hyper.s[hyper.s$chromosome==15,"perc.gain.chr"])
     perc.gain.chr15[length(perc.gain.chr15)==0]=NA
+    
+    perc.gain.chr18=unique(hyper.s[hyper.s$chromosome==18,"perc.gain.chr"])
+    perc.gain.chr18[length(perc.gain.chr18)==0]=NA
+    
     perc.gain.chr19=unique(hyper.s[hyper.s$chromosome==19,"perc.gain.chr"])
     perc.gain.chr19[length(perc.gain.chr19)==0]=NA
     perc.gain.chr21=unique(hyper.s[hyper.s$chromosome==21,"perc.gain.chr"])
@@ -605,13 +601,21 @@ for(iii in 1:length(samples)){
     double.chrs=sum(hyper.s[,"arm.gain"]) # Number of gained/amplified arms in the sample
     Cytogenetic="Double_Genomes"
     line.double.p=c(sam,type,whole.median.CN,seg.gain.pro.chr3.p,seg.gain.pro.chr5.p,seg.gain.pro.chr7.p,seg.gain.pro.chr9.p,
-                    seg.gain.pro.chr11.p,seg.gain.pro.chr15.p,seg.gain.pro.chr19.p,seg.gain.pro.chr21.p,double.chrs,Cytogenetic,"p",
-                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,perc.gain.chr19,perc.gain.chr21)
+                    seg.gain.pro.chr11.p,seg.gain.pro.chr15.p,
+                    seg.gain.pro.chr18.p,
+                    seg.gain.pro.chr19.p,seg.gain.pro.chr21.p,double.chrs,Cytogenetic,"p",
+                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,
+                    perc.gain.chr18,
+                    perc.gain.chr19,perc.gain.chr21)
     line.double.q=c(sam,type,whole.median.CN,seg.gain.pro.chr3.q,seg.gain.pro.chr5.q,seg.gain.pro.chr7.q,seg.gain.pro.chr9.q,
-                    seg.gain.pro.chr11.q,seg.gain.pro.chr15.q,seg.gain.pro.chr19.q,seg.gain.pro.chr21.q,double.chrs,Cytogenetic,"q",
-                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,perc.gain.chr19,perc.gain.chr21)
+                    seg.gain.pro.chr11.q,seg.gain.pro.chr15.q,
+                    seg.gain.pro.chr18.q,
+                    seg.gain.pro.chr19.q,seg.gain.pro.chr21.q,double.chrs,Cytogenetic,"q",
+                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,
+                    perc.gain.chr18,
+                    perc.gain.chr19,perc.gain.chr21)
     hyper.1=rbind(hyper.1,line.double.p,line.double.q)
-  }else if(sum(hyper.s[hyper.s$chromosome %in% chroms.hyper,"arm.gain"])>=2){
+  }else if(sum(hyper.s[hyper.s$chromosome %in% chroms.hyper,"chr.gain"])>=1){
     sam=unique(hyper.s$sample)
     type=unique(hyper.s$type)
     whole.median.CN=median(as.numeric(as.character(hyper.s$CN.median)),na.rm = T)
@@ -635,13 +639,18 @@ for(iii in 1:length(samples)){
     chr15.p=hyper.s[hyper.s$chromosome==15 & hyper.s$arm=="p",]
     seg.gain.pro.chr15.p=ifelse(chr15.p$chromosome==15,chr15.p$seg.gain.prop,NA)
     seg.gain.pro.chr15.p[length(seg.gain.pro.chr15.p)==0]=NA
+    
+    chr18.p=hyper.s[hyper.s$chromosome==18 & hyper.s$arm=="p",]
+    seg.gain.pro.chr18.p=ifelse(chr18.p$chromosome==18,chr18.p$seg.gain.prop,NA)
+    seg.gain.pro.chr18.p[length(seg.gain.pro.chr18.p)==0]=NA
+    
     chr19.p=hyper.s[hyper.s$chromosome==19 & hyper.s$arm=="p",]
     seg.gain.pro.chr19.p=ifelse(chr19.p$chromosome==19,chr19.p$seg.gain.prop,NA)
     seg.gain.pro.chr19.p[length(seg.gain.pro.chr19.p)==0]=NA
     chr21.p=hyper.s[hyper.s$chromosome==21 & hyper.s$arm=="p",]
     seg.gain.pro.chr21.p=ifelse(chr21.p$chromosome==21,chr21.p$seg.gain.prop,NA)
     seg.gain.pro.chr21.p[length(seg.gain.pro.chr21.p)==0]=NA
-    # . q arm  
+    # . q arm
     chr3.q=hyper.s[hyper.s$chromosome==3 & hyper.s$arm=="q",]
     seg.gain.pro.chr3.q=ifelse(chr3.q$chromosome==3,chr3.q$seg.gain.prop,NA)
     seg.gain.pro.chr3.q[length(seg.gain.pro.chr3.q)==0]=NA
@@ -660,6 +669,11 @@ for(iii in 1:length(samples)){
     chr15.q=hyper.s[hyper.s$chromosome==15 & hyper.s$arm=="q",]
     seg.gain.pro.chr15.q=ifelse(chr15.q$chromosome==15,chr15.q$seg.gain.prop,NA)
     seg.gain.pro.chr15.q[length(seg.gain.pro.chr15.q)==0]=NA
+    
+    chr18.q=hyper.s[hyper.s$chromosome==18 & hyper.s$arm=="q",]
+    seg.gain.pro.chr18.q=ifelse(chr18.q$chromosome==18,chr18.q$seg.gain.prop,NA)
+    seg.gain.pro.chr18.q[length(seg.gain.pro.chr18.q)==0]=NA
+    
     chr19.q=hyper.s[hyper.s$chromosome==19 & hyper.s$arm=="q",]
     seg.gain.pro.chr19.q=ifelse(chr19.q$chromosome==19,chr19.q$seg.gain.prop,NA)
     seg.gain.pro.chr19.q[length(seg.gain.pro.chr19.q)==0]=NA
@@ -679,6 +693,10 @@ for(iii in 1:length(samples)){
     perc.gain.chr11[length(perc.gain.chr11)==0]=NA
     perc.gain.chr15=unique(hyper.s[hyper.s$chromosome==15,"perc.gain.chr"])
     perc.gain.chr15[length(perc.gain.chr15)==0]=NA
+    
+    perc.gain.chr18=unique(hyper.s[hyper.s$chromosome==18,"perc.gain.chr"])
+    perc.gain.chr18[length(perc.gain.chr18)==0]=NA
+    
     perc.gain.chr19=unique(hyper.s[hyper.s$chromosome==19,"perc.gain.chr"])
     perc.gain.chr19[length(perc.gain.chr19)==0]=NA
     perc.gain.chr21=unique(hyper.s[hyper.s$chromosome==21,"perc.gain.chr"])
@@ -687,11 +705,19 @@ for(iii in 1:length(samples)){
     double.chrs=sum(hyper.s[hyper.s$chromosome %in% chroms.hyper,"arm.gain"])
     Cytogenetic="Trisomie"
     line.double.p=c(sam,type,whole.median.CN,seg.gain.pro.chr3.p,seg.gain.pro.chr5.p,seg.gain.pro.chr7.p,seg.gain.pro.chr9.p,
-                    seg.gain.pro.chr11.p,seg.gain.pro.chr15.p,seg.gain.pro.chr19.p,seg.gain.pro.chr21.p,double.chrs,Cytogenetic,"p",
-                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,perc.gain.chr19,perc.gain.chr21)
+                    seg.gain.pro.chr11.p,seg.gain.pro.chr15.p,
+                    seg.gain.pro.chr18.p,
+                    seg.gain.pro.chr19.p,seg.gain.pro.chr21.p,double.chrs,Cytogenetic,"p",
+                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,
+                    perc.gain.chr18,
+                    perc.gain.chr19,perc.gain.chr21)
     line.double.q=c(sam,type,whole.median.CN,seg.gain.pro.chr3.q,seg.gain.pro.chr5.q,seg.gain.pro.chr7.q,seg.gain.pro.chr9.q,
-                    seg.gain.pro.chr11.q,seg.gain.pro.chr15.q,seg.gain.pro.chr19.q,seg.gain.pro.chr21.q,double.chrs,Cytogenetic,"q",
-                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,perc.gain.chr19,perc.gain.chr21)
+                    seg.gain.pro.chr11.q,seg.gain.pro.chr15.q,
+                    seg.gain.pro.chr18.q,
+                    seg.gain.pro.chr19.q,seg.gain.pro.chr21.q,double.chrs,Cytogenetic,"q",
+                    perc.gain.chr3,perc.gain.chr5,perc.gain.chr7,perc.gain.chr9,perc.gain.chr11,perc.gain.chr15,
+                    perc.gain.chr18,
+                    perc.gain.chr19,perc.gain.chr21)
     hyper.1=rbind(hyper.1,line.double.p,line.double.q)
   }else{
     no.hyperdiploid.1=rbind(no.hyperdiploid.1,samples[iii])
@@ -700,16 +726,24 @@ for(iii in 1:length(samples)){
 
 hyper1=as.data.frame(hyper.1)
 colnames(hyper1)=c("sample","type","whole.median.CN","seg.gain.pro.chr3","seg.gain.pro.chr5","seg.gain.pro.chr7","seg.gain.pro.chr9",
-                   "seg.gain.pro.chr11","seg.gain.pro.chr15","seg.gain.pro.chr19","seg.gain.pro.chr21","double.chrs","Cytogenetic","arm",
-                   "perc.gain.chr3","perc.gain.chr5","perc.gain.chr7","perc.gain.chr9","perc.gain.chr11","perc.gain.chr15","perc.gain.chr19","perc.gain.chr21"
+                   "seg.gain.pro.chr11","seg.gain.pro.chr15",
+                   "seg.gain.pro.chr18",
+                   "seg.gain.pro.chr19","seg.gain.pro.chr21","double.chrs","Cytogenetic","arm",
+                   "perc.gain.chr3","perc.gain.chr5","perc.gain.chr7","perc.gain.chr9","perc.gain.chr11","perc.gain.chr15",
+                   "perc.gain.chr18",
+                   "perc.gain.chr19","perc.gain.chr21"
 )
 rownames(hyper1)=c(1:length(hyper1$sample))
-table(hyper1$type,hyper1$Cytogenetic)
-hyper1
-for(q in c(4:11,15:22)){
+#table(hyper1$type,hyper1$Cytogenetic)
+#hyper1
+#length(unique(hyper1$sample)) # 1078
+
+for(q in c(4:12,16:24)){
   hyper1[,q]=as.numeric(as.character(hyper1[,q]))
 }
-
+```
+Seventh step, we labeled the hyperdiploidy samples checking the 8 hyperdiploid chromosomes. Then, we created an object with all non-hyperdiploid samples.
+```{r,message=F,warning=FALSE}
 SAMPLE=unique(hyper1$sample)
 hyper2=NULL
 for(qq in 1:length(SAMPLE)){
@@ -717,6 +751,7 @@ for(qq in 1:length(SAMPLE)){
   sam=SAMPLE[qq]
   type=unique(hyper1.sample$type)
   whole.median.CN=unique(hyper1.sample$whole.median.CN)
+  cyto=unique(hyper1.sample$Cytogenetic)
   
   hyp.chr3=unique(ifelse(hyper1.sample$perc.gain.chr3>=0.6,1,0))
   hyp.chr5=unique(ifelse(hyper1.sample$perc.gain.chr5>=0.6,1,0))
@@ -724,48 +759,46 @@ for(qq in 1:length(SAMPLE)){
   hyp.chr9=unique(ifelse(hyper1.sample$perc.gain.chr9>=0.6,1,0))
   hyp.chr11=unique(ifelse(hyper1.sample$perc.gain.chr11>=0.6,1,0))
   hyp.chr15=unique(ifelse(hyper1.sample$perc.gain.chr15>=0.6,1,0))
+  
+  hyp.chr18=unique(ifelse(hyper1.sample$perc.gain.chr18>=0.6,1,0))
+  
   hyp.chr19=unique(ifelse(hyper1.sample$perc.gain.chr19>=0.6,1,0))
   hyp.chr21=unique(ifelse(hyper1.sample$perc.gain.chr21>=0.6,1,0))
   
-  hyp.sample=ifelse(sum(hyp.chr3,hyp.chr5,hyp.chr7,hyp.chr9,hyp.chr11,hyp.chr15,hyp.chr19,hyp.chr21,na.rm = T)>=2,"Hyperdiploidy","No.HRD")
+  hyp.sample=ifelse(sum(hyp.chr3,hyp.chr5,hyp.chr7,hyp.chr9,hyp.chr11,hyp.chr15,hyp.chr19,hyp.chr21,na.rm = T)>=2,"Hyperdiploidy","No.HRD") # Except chr18
   line=c(sam,type,whole.median.CN,
-         hyp.chr3,hyp.chr5,hyp.chr7,hyp.chr9,hyp.chr11,hyp.chr15,hyp.chr19,hyp.chr21,
-         hyp.sample)
+         hyp.chr3,hyp.chr5,hyp.chr7,hyp.chr9,hyp.chr11,hyp.chr15,hyp.chr19,hyp.chr21,hyp.chr18,
+         hyp.sample,
+         cyto)
   hyper2=rbind(line,hyper2)
 }
 hyper.2=as.data.frame(hyper2)
 colnames(hyper.2)=c("sample","type","whole.median.CN",
-                    "hyp.chr3","hyp.chr5","hyp.chr7","hyp.chr9","hyp.chr11","hyp.chr15","hyp.chr19","hyp.chr21",
-                    "hyp.sample")
+                    "hyp.chr3","hyp.chr5","hyp.chr7","hyp.chr9","hyp.chr11","hyp.chr15","hyp.chr19","hyp.chr21","hyp.chr18",
+                    "hyp.sample","Cytogenetic")
 rownames(hyper.2)=c(1:length(hyper.2$sample))
 
-#plot(density(hyper1$seg.gain.median))
-#plot(density(hyper1$seg.gain.sum))
-#hyper1[hyper1$seg.gain.median<0.80,]
-#hyper1[hyper1$seg.gain.sum<1.60,] # 0.80 per two chromosomes (hyperdiploid is when at least two chromosome are gained)
-#hyper1=hyper1[hyper1$seg.gain.sum>=SUM,]
+# save(hyper.2,file="~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/analysis/ANALYSIS_2023/CNVs/hyper.2.RData")
+# load("~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/analysis/ANALYSIS_2023/CNVs/hyper.2.RData")
 
 no.hyper=as.data.frame(no.hyperdiploid)
 if(length(no.hyper)>0){
-  colnames(no.hyper)="sample"  
+  colnames(no.hyper)="sample"
 }
 no.hyper1=as.data.frame(no.hyperdiploid.1)
 if(length(no.hyper1)>0){
-  colnames(no.hyper1)="sample"  
+  colnames(no.hyper1)="sample"
 }
-
 
 no.hyper.1=rbind(no.hyper,no.hyper1)
 no.hyper.1$Cytogenetic="No_HRD"
 
 hyper.5cohorts=hyper.2
-summary(hyper.5cohorts)
+#summary(hyper.5cohorts)
 no.hyper.5cohorts=no.hyper.1
-
 
 hyper.def=hyper.5cohorts
 no.hyper.def=no.hyper.5cohorts
-
 
 write.table(
   hyper.def,
@@ -796,16 +829,4 @@ write.table(
   quote = F,
   sep="\t"
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
+head(hyper.def)
