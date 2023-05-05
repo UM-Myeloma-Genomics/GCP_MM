@@ -43,7 +43,7 @@ hyperdiploid=read.delim(paste(WF,"/output/60%_ARMS_hyperdiploid.txt",sep=""),
                         stringsAsFactors = F)
 matrix1=merge(matrix,hyperdiploid,by.x="row.names",by.y="sample",all.x=T)
 pres.abs1=merge(pres.abs,hyperdiploid,by.x="row.names",by.y="sample",all.x=T)
-for(www in c(69:76)){
+for(www in c(69:77)){
   pres.abs1[,www]=ifelse(is.na(pres.abs1[,www]),0,pres.abs1[,www])
 }
 pres.abs1$hyp.sample=ifelse(is.na(pres.abs1$hyp.sample),"No.HRD",pres.abs1$hyp.sample)
@@ -51,7 +51,7 @@ table(pres.abs1$hyp.sample)
 matrix.hyper=pres.abs1[,c(1,69:76)]
 rownames(matrix.hyper)=matrix.hyper$Row.names
 matrix.hyper=matrix.hyper[,-1]
-colnames(matrix.hyper)=c("chr3+","chr5+","chr7+","chr9+","chr11+","chr15+","chr19+","chr21+")
+colnames(matrix.hyper)=c("chr3+","chr5+","chr7+","chr9+","chr11+","chr15+","chr19+","chr21+","chr18+)
 write.table(matrix.hyper,
             paste(WF,"/output/HRD_chromosomes.txt",sep=""),
             col.names = T,
