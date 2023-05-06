@@ -47,7 +47,21 @@ def data_normalize(x_array, normaliz_type):
     return x_norm, scaler
 
 
-def imputer_knn(df):
+def imputer_knn(df, type_, trained_model):
+    x_array = df.values
+    x_array, _ = data_normalize(x_array, 'min_max')
+    if type_ == 'train':
+        imputer = KNNImputer(n_neighbors=5, weights='uniform', metric='nan_euclidean')
+        imputer.fit(x_array)
+        x_imputed = imputer.transform(x_array)
+        # print('Missing: %d' % sum(np.isnan(x_imputed).flatten()))
+        return x_imputed, imputer
+    else:
+        x_imputed = trained_model.transform(x_array)
+        return x_imputed, _
+
+
+def imputer_knn_loo(df):
     x_array = df.values
     x_array, _ = data_normalize(x_array, 'min_max')
     imputer = KNNImputer(n_neighbors=5, weights='uniform', metric='nan_euclidean')

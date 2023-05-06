@@ -19,14 +19,14 @@ from functools import reduce
 parser = argparse.ArgumentParser(description='Prediction 1.0 Multiple Myeloma workflow')
 parser.add_argument('--in_data_file', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/', help='input dataset path')
 parser.add_argument('--path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1', help='input dataset path')
-parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_prediction_may_2020.xlsx', help='input dataset path')
+parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2023.xlsx', help='input dataset path')
 parser.add_argument('--surv_model', type=str, default='neural_cox_non_prop', help='model to train to survival model | rsf, cph, svms')
 parser.add_argument('--preds_time_in_days', type=int, default=1825, help='time in days')
 parser.add_argument('--thresh_m_to_p2', type=int, default=365, help='days')
 
 parser.add_argument('--outcome', type=str, default='risk_pfs', help='none in the case of first level comparisons, os, pfs')
 parser.add_argument('--pred_risk_at', type=int, default=1825, help='time in days')
-parser.add_argument('--get_treat_stats', action='store_true', default=False, help='get treat stats from dataset')
+parser.add_argument('--get_treat_stats', action='store_true', default=True, help='get treat stats from dataset')
 parser.add_argument('--sample', type=str, default='PD5886a', help='SAMPLE ids: MMRF_1332, PD5886a, MRC_1018')
 parser.add_argument('--plot_treat_combo_indiv_pat', action='store_true', default=False, help='indiv. predictions')
 parser.add_argument('--top_display', type=int, default=8, help='time in days')
@@ -41,10 +41,10 @@ def data_filter(df):
     df['time_SCT'].fillna(0, inplace=True)
 
     if args.ext_val is not True: # not for independent Heidelberg cohort
-        df_r_iss = pd.read_csv(args.in_data_file + '/ISS_RISS_R2ISS_LDH_all_cohort.txt', sep='\t')
-        df_r_iss['sample'] = np.where(df_r_iss['study'] == 'MRC_XI', 'MRC_' + df_r_iss['sample'], df_r_iss['sample'])
-        df_r_iss['sample'] = np.where(df_r_iss['study'] == 'UAMS', 'UAMS_' + df_r_iss['sample'], df_r_iss['sample'])
-        df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS']], on='sample', how='inner')
+        df_r_iss = pd.read_csv(args.in_data_file + '/r.iss.1933pts.txt', sep='\t')[['sample', 'R_ISS']]
+        df_r2_iss = pd.read_csv(args.in_data_file + '/r2.iss.1933pts.txt', sep='\t')[['sample', 'R2_ISS']]
+        df_r_r2_iss = pd.merge(df_r_iss, df_r2_iss, on='sample', how='inner')
+        df = pd.merge(df, df_r_r2_iss, on='sample', how='inner')
 
     if args.ext_val:
         df['ISS'] = np.select([(df['ISS'] == 'I'), (df['ISS'] == 'II'), (df['ISS'] == 'III')], ['ISS1', 'ISS2', 'ISS3'])
@@ -137,9 +137,9 @@ def data_filter(df):
 
 def load_dataset():
     if args.ext_val:
-        df = pd.read_csv(args.in_data_file + '/heidelberg_matrix.txt', sep='\t')
+        df = pd.read_csv(args.in_data_file + '/PMMM_hd6_03302023.txt', sep='\t')
     else:
-        df = pd.read_csv(args.in_data_file + '/PMMM_matrix_12052022.txt', sep='\t')
+        df = pd.read_csv(args.in_data_file + '/PMMM_train_03302023.txt', sep='\t')
 
     df = df.drop('SCT_line', axis=1)
     df = df[df['duration'] >= 0]
@@ -307,10 +307,10 @@ def plot_indiv_preds(sample_list, df_entire):
     """
     if args.ext_val:
         path_indiv = args.path + '/kfold/state_probs/all_states/'
-        output_files = glob.glob(path_indiv + '*~hd~*fold~0~*' + args.surv_model + '.csv') # *~hd~*fold~0~* + args.surv_model
+        output_files = glob.glob(path_indiv + 'testGroup~hd~*fold~0~*' + args.surv_model + '.csv') # *~hd~*fold~0~* + args.surv_model
     else:
         path_indiv = args.path + '/loo/state_probs/'
-        output_files = glob.glob(path_indiv + '*orig*neural_cox_non_prop.csv')
+        output_files = glob.glob(path_indiv + '*orig*' + args.surv_model + '.csv')
 
     df_ = pd.DataFrame(output_files)
 
@@ -435,7 +435,7 @@ def plot_treat_cohort(df):
 
     df_copy = df.copy()
     list_of_lists_all_pats = []
-    '''
+
     # run only once ; computationally expensive
     for ind_phase, phase in enumerate(['P2_SCT_only', 'P2_cont_only', 'P2_SCT_cont', 'P2_no_SCT_no_cont']):
         if args.ext_val:
@@ -480,10 +480,8 @@ def plot_treat_cohort(df):
                                                 'os_code', 'risk_pfs', 'risk_os'])
 
     df_table.to_csv(args.path + '/preds_treatment/df_table_risk_ext_val' + str(args.ext_val) + '.csv', index=False)
-    '''
-    ### comment till here
 
-    # comment till here
+    ### comment till here
 
     # view 1
 

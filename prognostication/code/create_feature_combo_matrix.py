@@ -3,14 +3,14 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Prediction 1.0 Multiple Myeloma workflow')
 parser.add_argument('--path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1', help='input dataset path')
-parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2022.xlsx', help='input dataset path')
+parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2023.xlsx', help='input dataset path')
 parser.add_argument('--permut_feat_path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1/permut_feat_imps/aggregate/', help='input dataset path')
 parser.add_argument('--permut_feat_path_reranked', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1/permut_feat_imps/aggregate_reranked/', help='input dataset path')
 parser.add_argument('--inner_feat_sel', action='store_true', default=False, help='sub features within each group; computationally expensive')
 parser.add_argument('--surv_model', type=str, default='neural_cox_non_prop', help='surv model')
-parser.add_argument('--iss_feat_groups', action='store_true', default=True, help='iss feature groups')
-parser.add_argument('--all_feat_groups', action='store_true', default=True, help='all feature groups')
-parser.add_argument('--reverse_order', action='store_true', default=True, help='all feature groups in reverse order')
+parser.add_argument('--iss_feat_groups', action='store_true', default=False, help='iss feature groups')
+parser.add_argument('--all_feat_groups', action='store_true', default=False, help='all feature groups')
+parser.add_argument('--reverse_order', action='store_true', default=False, help='all feature groups in reverse order')
 
 
 def create_feat_matrix(df_, feat_gp, top_feat, feat_class='class_generic', reranked=False):
@@ -84,6 +84,28 @@ def iss(df):
     ind = 0
     df_feat_combo = pd.DataFrame(columns=['feat_order', 'group_name', 'feat_combo'])
     df_feat_combo.loc[ind, 'feat_combo'] = 'ISS'
+    df_feat_combo.loc[ind, 'group_name'] = group_name
+    df_feat_combo.drop('feat_order', axis=1, inplace=True)
+    df = pd.concat([df, df_feat_combo], ignore_index=True)
+    return df
+
+
+def r_iss_split(df):
+    group_name = 'R-ISS-split'
+    ind = 0
+    df_feat_combo = pd.DataFrame(columns=['feat_order', 'group_name', 'feat_combo'])
+    df_feat_combo.loc[ind, 'feat_combo'] = 'ISS t_MAF t_MMSET Del_17p13.1 LDH_level'
+    df_feat_combo.loc[ind, 'group_name'] = group_name
+    df_feat_combo.drop('feat_order', axis=1, inplace=True)
+    df = pd.concat([df, df_feat_combo], ignore_index=True)
+    return df
+
+
+def r2_iss_split(df):
+    group_name = 'R2-ISS-split'
+    ind = 0
+    df_feat_combo = pd.DataFrame(columns=['feat_order', 'group_name', 'feat_combo'])
+    df_feat_combo.loc[ind, 'feat_combo'] = 'ISS t_MAF t_MMSET CNV_Gain_Amp1q Del_17p13.1 LDH_level'
     df_feat_combo.loc[ind, 'group_name'] = group_name
     df_feat_combo.drop('feat_order', axis=1, inplace=True)
     df = pd.concat([df, df_feat_combo], ignore_index=True)
@@ -243,11 +265,13 @@ def iss_clinical_transloc_sct_conTreat_treatment_gen(df, perf_type):
                                            'class_granular', True)
         df_feat_stack = pd.DataFrame(df_feat_stack['feat_order'].append(df_uni['Genomic.Feature'], ignore_index=True),
                      columns=['feat_order'])
+
     elif perf_type == 'top10':
         df_feat_stack = create_feat_matrix(df_feat_stack, 'CNV|Mutations|CNV_Mutations',
                                            [10, 2, 10, 10], 'class_granular', True)
         df_feat_stack = pd.DataFrame(df_feat_stack['feat_order'].append(df_uni['Genomic.Feature'], ignore_index=True),
                      columns=['feat_order'])
+
     elif perf_type == 'uni':
         print('just univariate')
         df_feat_stack = pd.DataFrame(df_feat_stack['feat_order'].append(df_uni['Genomic.Feature'], ignore_index=True),
@@ -284,7 +308,7 @@ def iss_clinical_transloc_sct_conTreat_treatment_gen(df, perf_type):
     elif perf_type == 'uni_p_01_top5_from_p_05':
         df_uni = df_uni[(df_uni['PFS.pvalue'] < 0.01) & (df_uni['OS.pvalue'] < 0.01)]
         df_feat_stack = create_feat_matrix(df_feat_stack, 'CNV|Mutations|CNV_Mutations|Translocation',
-                                           [2, 2, 3, 4], 'class_granular', True)
+                                           [4, 6, 4, 5], 'class_granular', True)
         df_feat_stack = pd.DataFrame(df_feat_stack['feat_order'].append(df_uni['Genomic.Feature'], ignore_index=True),
                      columns=['feat_order'])
 
@@ -533,6 +557,10 @@ def main():
         df = reverse_order_feats(df, 'uni_p_01_top5_from_p_05', 'transloc')
         df = reverse_order_feats(df, 'uni_p_01_top5_from_p_05', 'clinical')
         df = reverse_order_feats(df, 'uni_p_01_top5_from_p_05', 'iss')
+
+    ### composite features that make up R-ISS, R2-ISS
+    df = r_iss_split(df)
+    df = r2_iss_split(df)
 
     df = df[~( (df['feat_combo'] == 'ISS') & (df['group_name'] != 'ISS') )].reset_index(drop=True)
     df['group_id'] = df.index

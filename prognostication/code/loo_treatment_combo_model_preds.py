@@ -7,7 +7,7 @@ from pycox.models import CoxTime
 from pycox.models.cox_time import MLPVanillaCoxTime
 from sklearn_pandas import DataFrameMapper
 import re
-from modules_preprocess import imputer_knn
+from modules_preprocess import imputer_knn_loo
 from modules_mstate import *
 
 warnings.filterwarnings("ignore")
@@ -20,8 +20,9 @@ parser.add_argument('--in_data_file', type=str, default='/Users/axr2376/Desktop/
 parser.add_argument('--path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1', help='input dataset path')
 parser.add_argument('--thresh_m_to_p2', type=int, default=365, help='days')
 parser.add_argument('--sample', type=str, default='PD5886a', help='SAMPLE ids')
-parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2022.xlsx', help='input dataset path')
+parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2023.xlsx', help='input dataset path')
 parser.add_argument('--get_feats_group', type=str, default='9', help='if set None (100) then all feats')
+parser.add_argument('--ext_val', action='store_true', default=False, help='external test set')
 
 
 def data_filter(df):
@@ -30,15 +31,19 @@ def data_filter(df):
 
     df['time_SCT'].fillna(0, inplace=True)
 
-    df_r_iss = pd.read_csv(args.in_data_file + '/ISS_RISS_R2ISS_LDH_all_cohort.txt', sep='\t')
-    df_r_iss['sample'] = np.where(df_r_iss['study'] == 'MRC_XI', 'MRC_' + df_r_iss['sample'], df_r_iss['sample'])
-    df_r_iss['sample'] = np.where(df_r_iss['study'] == 'UAMS', 'UAMS_' + df_r_iss['sample'], df_r_iss['sample'])
-    df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS']], on='sample', how='inner')
+    if args.ext_val is not True: # not for independent Heidelberg cohort
+        df_r_iss = pd.read_csv(args.in_data_file + '/r.iss.1933pts.txt', sep='\t')[['sample', 'R_ISS']]
+        df_r2_iss = pd.read_csv(args.in_data_file + '/r2.iss.1933pts.txt', sep='\t')[['sample', 'R2_ISS']]
+        df_r_r2_iss = pd.merge(df_r_iss, df_r2_iss, on='sample', how='inner')
+        df = pd.merge(df, df_r_r2_iss, on='sample', how='inner')
+
+    if args.ext_val:
+        df['ISS'] = np.select([(df['ISS'] == 'I'), (df['ISS'] == 'II'), (df['ISS'] == 'III')], ['ISS1', 'ISS2', 'ISS3'])
 
     # map clinical vars
     map_gender = {'male': 0, 'female': 1}
     x_df = df.replace({'gender': map_gender})
-    map_study = {'MMRF': 0, 'MPG': 1, 'Moffit': 2, 'MSKCC_292': 3, 'UAMS': 4}
+    map_study = {'MMRF': 0, 'MPG': 1, 'Moffit': 2, 'MSKCC_292': 3, 'UAMS': 4,  'HD6': 5}
     x_df = x_df.replace({'study': map_study})
     map_ecog = {'ecog<2': 0, 'ecog>=2': 1}
     x_df = x_df.replace({'ecog': map_ecog})
@@ -155,7 +160,7 @@ def select_features(df):
 
 
 def raw_data_read_prepare():
-    df = pd.read_csv(args.in_data_file + '/PMMM_matrix_12052022.txt', sep='\t')
+    df = pd.read_csv(args.in_data_file + '/PMMM_train_03302023.txt', sep='\t')
 
     df = df.drop('SCT_line', axis=1)
 
@@ -232,7 +237,6 @@ def cox_time(train_x, train_y, test_x, cols_x, model_param):
     leave = [(col, None) for col in cols_leave]
     x_mapper = DataFrameMapper(leave)
 
-
     train_x = pd.DataFrame(train_x, columns=cols_x)
     val_x = train_x.sample(frac=0.2)
     test_x = pd.DataFrame(test_x, columns=cols_x)
@@ -276,8 +280,8 @@ def cox_time(train_x, train_y, test_x, cols_x, model_param):
 
     _ = model.compute_baseline_hazards()
 
-    # net.eval()
-    #   with torch.set_grad_enabled(False):
+    #net.eval()
+    #with torch.set_grad_enabled(False):
     surv_test = model.predict_surv_df(test_x)
 
     return surv_test
@@ -391,18 +395,20 @@ def data_prep(sample):
     Y = Y.reset_index(drop=True)
     df_X_entire = df_X_entire.reset_index(drop=True)
 
-    print(list(X_not_norm))
+    # print(list(X_not_norm))
     # print('data prep', Y['os_time'].min(), Y['os_time'].max())
 
     cols = list(X_not_norm)
 
-    # impute entire dataset
-    X_not_norm = imputer_knn(X_not_norm)
+    test_sample = df_X_entire[(df_X_entire['sample'] == sample)].reset_index()
+
+    # impute dataset
+    X_not_norm = imputer_knn_loo(X_not_norm)
     X_not_norm = pd.DataFrame(X_not_norm, columns=cols)
 
     # get test sample
-    test_sample = df_X_entire[(df_X_entire['sample'] == sample)].reset_index()
     test_x = X_not_norm[X_not_norm.index.isin(test_sample['index'])]
+    test_x = pd.DataFrame(test_x, columns=cols)
     test_y = Y[Y.index.isin(test_sample['index'])]
 
     X_not_norm = X_not_norm.drop(index=test_sample['index'])

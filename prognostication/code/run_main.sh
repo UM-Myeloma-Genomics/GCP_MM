@@ -13,10 +13,11 @@ total_splits=$(($folds * $repeats))
 #### set paths/dirs
 current_dir=$(pwd)
 path_data_in="$current_dir/data_in"
-path_data_legend="$path_data_in/legend_PMMM_2022.xlsx"
+path_data_legend="$path_data_in/legend_PMMM_2023.xlsx"
 
 out_dir="/home/axr2376/pred_1_0_paper"
-path_data_out="$out_dir/data_out/expt_1"
+path_data_out="$out_dir/data_out/expt_1_matrix_04052023"
+
 path_permut="$path_data_out/permut_feat_imps"
 path_permut_feat_compose="$path_permut/compose/"
 path_permut_feat_agg="$path_permut/aggregate/"
@@ -34,8 +35,9 @@ path_loo_state_preds="$path_data_out/loo/state_probs/"
 path_treat_preds="$path_data_out/preds_treatment"
 
 
-mkdir -p $out_dir $path_data_out $path_plots $path_permut $path_permut_feat_agg $path_permut_feat_compose "$path_data_out/feat_matrix" $path_model_preds $path_os_multistate_preds $path_efs_multistate_preds "$path_data_out/kfold/metrics/model_feat_combo" "$path_data_out/kfold/metrics/model_genomics" $path_permut_feat_agg $path_permut_feat_compose "$path_data_out/shap_feat_imps" $path_loo_model_preds $path_loo_state_preds $path_treat_preds $path_permut_feat_agg_reranked $path_all_states_multistate_preds
+mkdir -p $out_dir $path_data_out $path_plots $path_permut $path_permut_feat_agg $path_permut_feat_compose "$path_data_out/feat_matrix" $path_model_preds $path_os_multistate_preds $path_efs_multistate_preds "$path_data_out/kfold/metrics/model_feat_combo" "$path_data_out/kfold/metrics/model_genomics" $path_permut_feat_agg $path_permut_feat_compose $path_loo_model_preds $path_loo_state_preds $path_treat_preds $path_permut_feat_agg_reranked $path_all_states_multistate_preds
 
+# func
 task(){
   current_dir=$(pwd)
   group_id=${1}
@@ -63,6 +65,7 @@ task(){
 
 }
 
+# func
 get_best_gen_feats(){
   folds=$1
   repeats=$2
@@ -73,18 +76,21 @@ get_best_gen_feats(){
   CUDA_VISIBLE_DEVICES="" python3 "$current_dir/code/kfold_model_train_preds.py" --surv_model $model --top_gen_feats --top_n_gen_feats $top_n_gen_feats --kfolds $folds --n_repeat_kfold $repeats --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --agg_reranked
 }
 
-###### All feats
 # model for feat sel; gen add-on
 model="neural_cox_non_prop"
 ext_val="No"
 
+## section 1
+###### All feats
+
+: '
 task "100" "$folds" "$repeats" "$model" "$total_splits" "$ext_val" &
 task "100" "$folds" "$repeats" "rsf" "$total_splits" "$ext_val" &
 task "100" "$folds" "$repeats" "cph" "$total_splits" "$ext_val" &
 
 ###### Feat rankers: (1) Permutation Importance
 CUDA_VISIBLE_DEVICES=0 python3 "$current_dir/code/kfold_model_train_preds.py" --surv_model $model --kfolds $folds --n_repeat_kfold $repeats --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --perm_feat_imp &
-#perm_imp_pid=$! 
+perm_imp_pid=$! 
 
 ### Feature rankers : (2) SHAP
 #CUDA_VISIBLE_DEVICES=1 python3 "$current_dir/code/main_kfold_train_preds.py" --surv_model $model --kfolds $folds --n_repeat_kfold $repeats --in_data_file $path_data_in --path $path_data_out --legend $path_data_legend --shap_feat_imp &
@@ -99,6 +105,7 @@ task "2" "$folds" "$repeats" "cph" "$total_splits" "$ext_val" &
 
 wait $perm_imp_pid
 
+## section 2
 ### Aggregate permutation importance rank scores
 
 python3 "$current_dir/code/metrics.py" --surv_model $model --in_data_file $path_data_in --path $path_data_out --agg_perm_imp --re_rank_feats --legend $path_data_legend
@@ -111,15 +118,17 @@ for num_gen_feats in $(seq 0 10); do
    get_best_gen_feats "$folds" "$repeats" "$model" "$num_gen_feats" &
 done
 )
+'
 
+: '
+## section 2a - check heatmap to find significant gen features for feature selection
 python3 "$current_dir/code/metrics.py" --surv_model $model --in_data_file $path_data_in --path $path_data_out --get_top_gen_feats --heatmap_bygroup --re_rank_feats --legend $path_data_legend
 
-###### Aggregate --> score --> rank
+## section 3 - IRMMa (TG)
 # create feature combinations to feed the right slices of features to train models
 
 python3 "$current_dir/code/create_feature_combo_matrix.py" --path $path_data_out --legend $path_data_legend --permut_feat_path_reranked $path_permut_feat_agg_reranked --iss_feat_groups --all_feat_groups --permut_feat_path $path_permut_feat_agg --reverse_order
 
-# check file: create_feature_combo_matrix.py for info about what feature(s) task "id" has by going to the "id"th row 
 task "10" "$folds" "$repeats" "cph" "$total_splits" "$ext_val" & 
 
 master_file="$path_data_out/feat_matrix/main_keeper.csv"
@@ -137,16 +146,24 @@ for group_id in $(seq 3 $total_jobs_count); do
    fi
 
 done 
+)
+'
 
-# after training, c-index for external test set
-task "9" "$folds" "$repeats" "$model" "$total_splits" "Yes" &
-task "2" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
-task "100" "$folds" "$repeats" "$model" "$total_splits" "Yes" &
-task "100" "$folds" "$repeats" "rsf" "$total_splits" "Yes" &
-task "100" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
-task "0" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
-task "1" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
+# kfold groups 23 and 24 (r-iss / r2-iss split)
+# task "23" "$folds" "$repeats" "$model" "$total_splits" "No" &
+# task "24" "$folds" "$repeats" "$model" "$total_splits" "No" &
 
+# kfold external test set
+# task "0" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
+# task "1" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
+# task "2" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
+# task "9" "$folds" "$repeats" "$model" "$total_splits" "Yes" &
+# task "100" "$folds" "$repeats" "$model" "$total_splits" "Yes" &
+# task "None" "$folds" "$repeats" "rsf" "$total_splits" "Yes" &
+# task "None" "$folds" "$repeats" "cph" "$total_splits" "Yes" &
+
+: '
+## section 4
 ###### Treatment predictions
 # loo predictions
 indiv_treat_preds(){
@@ -161,7 +178,7 @@ filename="$path_treat_preds/patients.txt"
 IFS=$'\n' read -d '' -r -a pat_ids < $filename
 printf "%s\n" "${pat_ids[@]}"
 
-N=16
+N=12
 total_pats=${#pat_ids[@]}
 echo $total_pats
 
@@ -172,5 +189,4 @@ for num_pat in $(seq 0 $total_pats); do
    indiv_treat_preds "${pat_ids[num_pat]}" "9" &
 done
 )
-
-
+'

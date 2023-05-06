@@ -30,9 +30,9 @@ parser.add_argument('--c_index_type', type=str, default='harrell', help='highly 
 parser.add_argument('--n_repeat_kfold', type=int, default=1, help='times to repeat kfold')
 parser.add_argument('--in_data_file', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in', help='input dataset path')
 parser.add_argument('--path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1', help='input dataset path')
-parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2022.xlsx', help='input dataset path')
+parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2023.xlsx', help='input dataset path')
 parser.add_argument('--thresh_m_to_p2', type=int, default=365, help='days')
-parser.add_argument('--get_feats_group', type=str, default='9', help='101 is test set ; from master key file; if None (100) then all feats')
+parser.add_argument('--get_feats_group', type=str, default='None', help='101 is test set ; from master key file; if None (100) then all feats')
 
 
 def data_filter(df, ext_val=False):
@@ -42,13 +42,14 @@ def data_filter(df, ext_val=False):
     df['time_SCT'].fillna(0, inplace=True)
 
     if ext_val is not True: # not for independent Heidelberg cohort
-        df_r_iss = pd.read_csv(args.in_data_file + '/ISS_RISS_R2ISS_LDH_all_cohort.txt', sep='\t')
-        df_r_iss['sample'] = np.where(df_r_iss['study'] == 'MRC_XI', 'MRC_' + df_r_iss['sample'], df_r_iss['sample'])
-        df_r_iss['sample'] = np.where(df_r_iss['study'] == 'UAMS', 'UAMS_' + df_r_iss['sample'], df_r_iss['sample'])
-        df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS']], on='sample', how='inner')
+        df_r_iss = pd.read_csv(args.in_data_file + '/r.iss.1933pts.txt', sep='\t')[['sample', 'R_ISS', 'Del_17p13.1']]
+        df_r2_iss = pd.read_csv(args.in_data_file + '/r2.iss.1933pts.txt', sep='\t')[['sample', 'R2_ISS']]
+        df_r_r2_iss = pd.merge(df_r_iss, df_r2_iss, on='sample', how='inner')
+        df = pd.merge(df, df_r_r2_iss, on='sample', how='inner')
     else:
         df_r_iss = pd.read_csv(args.in_data_file + '/iss_r-iss_r2-iss_hd6.txt', sep='\t')
-        df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS']], on='sample', how='inner')
+        df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS', 'del17p']], on='sample', how='inner')
+        df.rename(columns={'del17p': 'Del_17p13.1'}, inplace=True)
 
     # GEP70
     if args.get_feats_group == '10':
@@ -166,26 +167,26 @@ def select_features(df, ext_val=False):
             & (df_fea_anno['column_id'] != 'DARA') & (df_fea_anno['column_id'] != 'ELO') & (df_fea_anno['column_id'] != 'RNA_GEP70_dichotomous')
             ]
 
-    '''
-    if ext_val is True:
-        df_fea_anno = df_fea_anno[(df_fea_anno['column_id'] != 'R_ISS') & (df_fea_anno['column_id'] != 'R2_ISS')]
-    '''
-
-    df_ = df[df_fea_anno['column_id'].tolist()]
+    if (args.get_feats_group == '23') or (args.get_feats_group == '24'): # r-iss / r2-iss split feature Del_17p13.1
+        df_ = df
+    else:
+        df_ = df[df_fea_anno['column_id'].tolist()]
 
     if args.get_feats_group != 'None':
         master_df = pd.read_csv(args.path + '/feat_matrix/main_keeper.csv')
         df_ = df_[master_df.loc[int(args.get_feats_group), 'feat_combo'].split(' ')]
 
     if args.get_feats_group == 'None':
-        if ext_val is not True: # HD doesn't have R-ISS, R2-ISS
+        if (ext_val is not True):
             df_ = df_.drop(['R_ISS', 'R2_ISS'], axis=1)
+        elif (ext_val is True):
+            df_ = df_.drop(['R_ISS', 'R2_ISS', 'del17p'], axis=1)
 
     return df_
 
 
 def raw_data_read_prepare():
-    df = pd.read_csv(args.in_data_file + '/PMMM_matrix_12052022.txt', sep='\t')
+    df = pd.read_csv(args.in_data_file + '/PMMM_train_03302023.txt', sep='\t')
 
     df = df.drop('SCT_line', axis=1)
 
@@ -198,7 +199,7 @@ def raw_data_read_prepare():
 
 def indepn_raw_data_read_prepare():
     '''Raw data for test set'''
-    df = pd.read_csv(args.in_data_file + '/heidelberg_matrix.txt', sep='\t')
+    df = pd.read_csv(args.in_data_file + '/PMMM_hd6_03302023.txt', sep='\t')
     df = df.drop('SCT_line', axis=1)
 
     df = df.sort_values(by=['sample'])
@@ -385,10 +386,15 @@ def train_survival_(fold, train_x, train_y, val_x, val_y, test_x, df_test, group
     df_feat_imp = pd.DataFrame()
     cols_x = list(train_x)
 
+    # impute (loo method)
+    #train_x = imputer_knn_loo(train_x)
+    #val_x = imputer_knn_loo(val_x)
+    #test_x = imputer_knn_loo(test_x)
+
     # impute
-    train_x = imputer_knn(train_x)
-    val_x = imputer_knn(val_x)
-    test_x = imputer_knn(test_x)
+    train_x, imput_model = imputer_knn(train_x, 'train', '')
+    val_x, _ = imputer_knn(val_x, 'val', imput_model)
+    test_x, _ = imputer_knn(test_x, 'val', imput_model)
 
     df_train_y = train_y.copy();  df_val_y_bystate = val_y.copy()
 

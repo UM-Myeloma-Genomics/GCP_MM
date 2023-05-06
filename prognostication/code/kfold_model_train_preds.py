@@ -25,11 +25,12 @@ parser = argparse.ArgumentParser(description='Cross validation on the validation
 parser.add_argument('--seed', type=int, default=456, help='random seed (default: 42)')
 parser.add_argument('--kfolds', type=int, default=3, help='Cross validation, number of folds')
 parser.add_argument('--surv_model', type=str, default='neural_cox_non_prop', help='rsf, cph, neural_cox_non_prop, deep_surv')
+
 parser.add_argument('--c_index_type', type=str, default='harrell', help='highly censored? | uno else harrell')
-parser.add_argument('--n_repeat_kfold', type=int, default=10, help='times to repeat kfold')
+parser.add_argument('--n_repeat_kfold', type=int, default=1, help='times to repeat kfold')
 parser.add_argument('--in_data_file', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in', help='input dataset path')
 parser.add_argument('--path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1', help='input dataset path')
-parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2022.xlsx', help='input dataset path')
+parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2023.xlsx', help='input dataset path')
 parser.add_argument('--thresh_m_to_p2', type=int, default=365, help='days')
 
 parser.add_argument('--perm_feat_imp', action='store_true', default=False, help='permutation feat imp')
@@ -50,17 +51,16 @@ def data_filter(df):
 
     df['time_SCT'].fillna(0, inplace=True)
 
-    df_r_iss = pd.read_csv(args.in_data_file + '/ISS_RISS_R2ISS_LDH_all_cohort.txt', sep='\t')
-    df_r_iss['sample'] = np.where(df_r_iss['study'] == 'MRC_XI', 'MRC_' + df_r_iss['sample'], df_r_iss['sample'])
-    df_r_iss['sample'] = np.where(df_r_iss['study'] == 'UAMS', 'UAMS_' + df_r_iss['sample'], df_r_iss['sample'])
-    df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS']], on='sample', how='inner')
+    df_r_iss = pd.read_csv(args.in_data_file + '/r.iss.1933pts.txt', sep='\t')[['sample','R_ISS', 'Del_17p13.1']]
+    df_r2_iss = pd.read_csv(args.in_data_file + '/r2.iss.1933pts.txt', sep='\t')[['sample', 'R2_ISS']]
+    df_r_r2_iss = pd.merge(df_r_iss, df_r2_iss, on='sample', how='inner')
+    df = pd.merge(df, df_r_r2_iss, on='sample', how='inner')
 
     # GEP70
     if args.get_feats_group == '10':
         df_gep = pd.read_csv(args.in_data_file + '/GEP70.txt', sep='\t')
         df = pd.merge(df, df_gep[['Patient', 'RNA_GEP70_dichotomous']], left_on='sample', right_on='Patient', how='inner')
         df.drop('Patient', axis=1, inplace=True)
-        print(list(df))
 
     # map clinical vars
     map_gender = {'male': 0, 'female': 1}
@@ -168,7 +168,10 @@ def select_features(df):
             & (df_fea_anno['column_id'] != 'DARA') & (df_fea_anno['column_id'] != 'ELO') & (df_fea_anno['column_id'] != 'RNA_GEP70_dichotomous')
             ]
 
-    df_ = df[df_fea_anno['column_id'].tolist()]
+    if (args.get_feats_group == '23') or (args.get_feats_group == '24'): # r-iss / r2-iss split feature Del_17p13.1
+        df_ = df
+    else:
+        df_ = df[df_fea_anno['column_id'].tolist()]
 
     if args.get_feats_group != 'None':
         master_df = pd.read_csv(args.path + '/feat_matrix/main_keeper.csv')
@@ -181,7 +184,7 @@ def select_features(df):
 
 
 def raw_data_read_prepare():
-    df = pd.read_csv(args.in_data_file + '/PMMM_matrix_12052022.txt', sep='\t')
+    df = pd.read_csv(args.in_data_file + '/PMMM_train_03302023.txt', sep='\t')
 
     df = df.drop('SCT_line', axis=1)
 
@@ -413,9 +416,9 @@ def train_survival_(fold, train_x, train_y, test_x, test_x_bystate, test_y_bysta
     cols_x = list(train_x)
 
     # impute
-    train_x = imputer_knn(train_x)
-    test_x = imputer_knn(test_x)
-    test_x_bystate = imputer_knn(test_x_bystate)
+    train_x, imput_model = imputer_knn(train_x, 'train', '')
+    test_x, _ = imputer_knn(test_x, 'val', imput_model)
+    test_x_bystate, _ = imputer_knn(test_x_bystate, 'val', imput_model)
 
     df_train_y = train_y.copy();  df_test_y_bystate = test_y_bystate.copy()
 

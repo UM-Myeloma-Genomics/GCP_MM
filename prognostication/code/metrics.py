@@ -19,7 +19,7 @@ from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 parser = argparse.ArgumentParser(description='Prediction 1.0 Multiple Myeloma workflow')
 parser.add_argument('--in_data_file', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in', help='input dataset path')
 parser.add_argument('--path', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_out/expt_1', help='input dataset path')
-parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2022.xlsx', help='input dataset path')
+parser.add_argument('--legend', type=str, default='/Users/axr2376/Desktop/pred_1_0_paper/data_in/legend_PMMM_2023.xlsx', help='input dataset path')
 
 parser.add_argument('--outcome', type=str, default='efs', help='none in the case of first level comparisons, os, efs, pfs')
 parser.add_argument('--get_metric', type=str, default='C_index_harrell', help='options: NBLL, C_index_antolini, C_index_harrell, C_index_uno, Int_Brier_Score, AUC')
@@ -52,10 +52,10 @@ def data_filter(df, ext_val):
     df['time_SCT'].fillna(0, inplace=True)
 
     if ext_val is not True: # not for independent Heidelberg cohort
-        df_r_iss = pd.read_csv(args.in_data_file + '/ISS_RISS_R2ISS_LDH_all_cohort.txt', sep='\t')
-        df_r_iss['sample'] = np.where(df_r_iss['study'] == 'MRC_XI', 'MRC_' + df_r_iss['sample'], df_r_iss['sample'])
-        df_r_iss['sample'] = np.where(df_r_iss['study'] == 'UAMS', 'UAMS_' + df_r_iss['sample'], df_r_iss['sample'])
-        df = pd.merge(df, df_r_iss[['sample', 'R_ISS', 'R2_ISS']], on='sample', how='inner')
+        df_r_iss = pd.read_csv(args.in_data_file + '/r.iss.1933pts.txt', sep='\t')[['sample', 'R_ISS']]
+        df_r2_iss = pd.read_csv(args.in_data_file + '/r2.iss.1933pts.txt', sep='\t')[['sample', 'R2_ISS']]
+        df_r_r2_iss = pd.merge(df_r_iss, df_r2_iss, on='sample', how='inner')
+        df = pd.merge(df, df_r_r2_iss, on='sample', how='inner')
 
     if ext_val:
         df['ISS'] = np.select([(df['ISS'] == 'I'), (df['ISS'] == 'II'), (df['ISS'] == 'III')], ['ISS1', 'ISS2', 'ISS3'])
@@ -148,9 +148,9 @@ def data_filter(df, ext_val):
 
 def load_dataset(val=False):
     if val is True:
-        df = pd.read_csv(args.in_data_file + '/heidelberg_matrix.txt', sep='\t')
+        df = pd.read_csv(args.in_data_file + '/PMMM_hd6_03302023.txt', sep='\t')
     else:
-        df = pd.read_csv(args.in_data_file + '/PMMM_matrix_12052022.txt', sep='\t')
+        df = pd.read_csv(args.in_data_file + '/PMMM_train_03302023.txt', sep='\t')
 
     df = df.drop('SCT_line', axis=1)
     df = df[df['duration'] >= 0]
@@ -785,14 +785,15 @@ def rank_folds_multistate():
     if args.ext_val:
         group_list = ['2~9', '2~9~100']
     else:
-        group_list = ['2~10~100', '0~1~2~3~4~5~6~7~9~10~100']
+        group_list = ['2~10~100', '0~1~2~3~4~5~6~7~9~10~23~24~100']
 
     if args.plot_sub_groups:
+        print('innnnnnn here')
         for group in group_list:
             for outcom in [args.outcome]:
                 if args.ext_val is not True:
                     df = pd.read_csv(args.path + '/plots/' + args.outcome + '_ext_val_' + str(args.ext_val) + '_'
-                        + str(args.preds_time_in_days) + '_group_' + '0~1~2~3~4~5~6~7~8~9~10~11~12~13~14~15~100' + '.csv')
+                        + str(args.preds_time_in_days) + '_group_' + '0~1~2~3~4~5~6~7~8~9~10~11~12~13~14~15~16~17~18~19~20~21~22~23~24~100' + '.csv')
                 else:
                     df = pd.read_csv(args.path + '/plots/' + args.outcome + '_ext_val_' + str(args.ext_val) + '_'
                                      + str(args.preds_time_in_days) + '_group_' + '2~9~100' + '.csv')
@@ -837,7 +838,7 @@ def plot_metrics_multistate_models(df_metr_conc):
         if args.ext_val:
             group_list = ['2~9', '2~9~100']
         else:
-            group_list = ['2~10~100', '0~1~2~3~4~5~6~7~9~10~100']
+            group_list = ['2~10~100', '0~1~2~3~4~5~6~7~9~10~23~24~100']
 
         df_metr_conc_cp = df_metr_conc.copy()
         for group in group_list:
@@ -856,7 +857,7 @@ def plot_metrics_multistate_models(df_metr_conc):
                 elif args.outcome == 'efs':
                     heights = [0.62, 0.7, 0.72, 0.75]
 
-            elif group == '0~1~2~3~4~5~6~7~9~10~100' and not args.ext_val:
+            elif group == '0~1~2~3~4~5~6~7~9~10~23~24~100' and not args.ext_val:
                 comp_ncnph_100 = 'M-Neural CNPH (Group=100)' # feature group to compare for p-val stats
                 comp_ncnph_9 = 'M-Neural CNPH (Group=9)' ; comp_ncnph_7 = 'M-Neural CNPH (Group=7)' ;
                 comp_ncnph_6 = 'M-Neural CNPH (Group=6)' ; comp_ncnph_5 = 'M-Neural CNPH (Group=5)' ;
@@ -868,7 +869,8 @@ def plot_metrics_multistate_models(df_metr_conc):
                                 'M-CPH-R (Group=0)', 'M-CPH-R (Group=1)', 'M-CPH-R (Group=2)',
                                 'M-Neural CNPH (Group=3)', 'M-Neural CNPH (Group=4)',
                                 'M-Neural CNPH (Group=5)', 'M-Neural CNPH (Group=6)', 'M-Neural CNPH (Group=7)',
-                                'M-Neural CNPH (Group=9)', 'M-CPH-R (Group=10)', 'M-Neural CNPH (Group=100)'])
+                                'M-Neural CNPH (Group=9)', 'M-CPH-R (Group=10)',
+                    'M-Neural CNPH (Group=23)', 'M-Neural CNPH (Group=24)', 'M-Neural CNPH (Group=100)'])
                                 ]
                 if args.outcome == 'os':
                     heights = [0.68, 0.65, 0.68, 0.7, 0.73, 0.76, 0.78, 0.76, 0.78, 0.76]
@@ -913,11 +915,11 @@ def plot_metrics_multistate_models(df_metr_conc):
                 if args.c_index_group_addition:
                     median_df = df_metr_conc.groupby([item])[metric].median().sort_values(ascending=False).reset_index()
 
-                if group == '0~1~2~3~4~5~6~7~9~10~100' and not args.ext_val:
+                if group == '0~1~2~3~4~5~6~7~9~10~23~24~100' and not args.ext_val:
                     order_ = ['M-CPH-R (Group=10)', 'M-CPH-R (Group=2)', 'M-CPH-R (Group=0)', 'M-CPH-R (Group=1)',
                                 'M-Neural CNPH (Group=3)', 'M-Neural CNPH (Group=4)',
                                 'M-Neural CNPH (Group=5)', 'M-Neural CNPH (Group=6)', 'M-Neural CNPH (Group=7)',
-                                'M-Neural CNPH (Group=9)', 'M-Neural CNPH (Group=100)']
+                                'M-Neural CNPH (Group=9)', 'M-Neural CNPH (Group=23)', 'M-Neural CNPH (Group=24)', 'M-Neural CNPH (Group=100)']
                 elif group == '2~10~100' and not args.ext_val:
                     order_ = ['M-CPH-R (Group=10)', 'M-CPH-R (Group=2)', 'M-CPH-R (Group=100)',
                               'M-RSF (Group=100)', 'M-Neural CNPH (Group=100)']
@@ -944,7 +946,7 @@ def plot_metrics_multistate_models(df_metr_conc):
                         ax.set_ylim([0.45, 0.8])
                     elif args.outcome == 'efs':
                         ax.set_ylim([0.45, 0.8])
-                elif group == '0~1~2~3~4~5~6~7~9~10~100' and not args.ext_val:
+                elif group == '0~1~2~3~4~5~6~7~9~10~23~24~100' and not args.ext_val:
                     if args.outcome == 'os':
                         ax.set_ylim([0.45, 0.84])
                     elif args.outcome == 'efs':
@@ -980,7 +982,7 @@ def plot_metrics_multistate_models(df_metr_conc):
                     ax.spines['left'].set_linewidth(1)
 
                 he_ind = 0
-
+                """
                 '''Model comparisons for significance'''
                 for a, b in it.combinations(median_df[item].unique().tolist(), 2):
                     print('before', a, b)
@@ -1030,6 +1032,7 @@ def plot_metrics_multistate_models(df_metr_conc):
                             he_ind +=1
                         else:
                             print('else', a, b)
+                """
                 plt.tight_layout()
                 fig.savefig(args.path + '/plots/' + metric + '_' + args.outcome + '_ext_val_' + str(args.ext_val) + '_group_' + group + '.png')
 
@@ -1682,11 +1685,11 @@ def get_frac_of_pats():
             'Alive after Progression (Induction)', 'Death after progression (Induction)',
                         'Death in Phase 2', 'Death after Progression (Phase 2)']
 
-    df_accum.to_csv(args.path + '/plots/mean_frac_of_patients_ext_val_' + str(args.ext_val) + '_at' + str(args.preds_time_in_days) + '.csv', index=False)
+    df_accum.to_csv(args.path + '/plots/median_frac_of_patients_ext_val_' + str(args.ext_val) + '_at' + str(args.preds_time_in_days) + '.csv', index=False)
 
 
 def plot_frac_of_pats():
-    df = pd.read_csv(args.path + '/plots/mean_frac_of_patients_ext_val_' + str(args.ext_val) + '_at' + str(args.preds_time_in_days) + '.csv')
+    df = pd.read_csv(args.path + '/plots/median_frac_of_patients_ext_val_' + str(args.ext_val) + '_at' + str(args.preds_time_in_days) + '.csv')
     df.columns = ['Non-POD \nin induction', 'POD in induction and alive',
                   'Non-POD and alive', 'POD after induction and alive', 'POD in induction and death',
                   'Non-POD and death', 'POD after induction and death']
@@ -1719,7 +1722,7 @@ def plot_frac_of_pats():
     plt.xlim(xmin=0, xmax=5)
     plt.ylim(ymax=1)
     fig.tight_layout()
-    fig.savefig(args.path + '/plots/mean_frac_of_patients_ext_val_' + str(args.ext_val) + '_at' + str(args.preds_time_in_days) + '.png')
+    fig.savefig(args.path + '/plots/median_frac_of_patients_ext_val_' + str(args.ext_val) + '_at' + str(args.preds_time_in_days) + '.png')
 
 
 '''
@@ -2065,9 +2068,10 @@ def main():
     if args.get_risk_scores:
         get_risks_kfold_model('False', 'mean')  # cv ours
         # get_risks_kfold_model('True', 'mean')  # hd
-        # get_risks_kfold_multistate('False', df, 'mean')  # cv ours
+        get_risks_kfold_multistate('False', df, 'mean')  # cv ours
         # get_risks_kfold_multistate('True', df_val, 'mean')  # hd
-        # get_risks_loo_multistate()  # loo ours
+        #get_risks_loo_model()
+        get_risks_loo_multistate()  # loo ours
 
     if args.relative_imp:
         relative_importance(df_sub_c_ind_vals)
