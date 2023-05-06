@@ -8,7 +8,7 @@ Please refer to [recommendations](recommendations.pdf) on what queries might pro
 
 ### IRMMa Risk Calculator - User Guide
 
-This website is a tool to calculate risks according to an individual’s characteristics. The Attribute Form is the set of features used to calculate multistate/treatment risks. Age (Demographics), ISS, and Induction (Phase 1) (Therapeutics) are mandatory fields. Please select them in the section to the left by clicking one of the section drop-downs. If there is no selection on IGH-Translocations/Genomics, the default is NA. When you are done, press the Submit button.
+This website is a tool to calculate risks according to an individual’s characteristics. The Attribute Form is the set of features used to calculate multistate/treatment risks. *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapeutics*) are mandatory fields. Please select them in the section to the left by clicking one of the section drop-downs. If there is no selection on *IGH-Translocations*/*Genomics*, the default is NA. When you are done, press the Submit button.
 
 Once submitted, IRMMa calculates risks and the following is displayed:
 
