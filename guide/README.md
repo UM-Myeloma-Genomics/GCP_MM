@@ -13,7 +13,7 @@ This website is a tool to calculate risks according to an individual’s charact
 Once submitted, IRMMa calculates risks and the following is displayed:
 
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
-* **Treatment** - Adjusted Risk - Risk of POD or death at 5 years based on selected and alternative first-line treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
+* **Treatment-Adjusted Risk** - Risk of POD or death at 5 years based on selected and alternative first-line treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
 **Acronyms/definitions**:
 
