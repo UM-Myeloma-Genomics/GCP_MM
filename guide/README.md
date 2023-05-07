@@ -18,7 +18,7 @@ Once submitted, IRMMa calculates risks and the following is displayed:
 **Acronyms/definitions**:
 
 * **IRMMa** - Individualized Risk Model for Myeloma.
-* **MAINT/CONT.TREAT (M.C.T.)** - Maintenance/continuous treatment (Defined as either maintenance therapy continuing after induction or a treatment lasting more than 12 months Palumbo et al. JCO 2015).
+* **MAINT/CONT.TREAT (M.C.T.)** - Maintenance/continuous treatment (Defined as either maintenance therapy continuing after induction or a treatment lasting more than 12 months, Palumbo et al. JCO 2015).
 * **CHEMO** - Any chemotherapy regiment received except high-dose melphalan. This includes cyclophosphamide, low-dose melphalan, or any platinum-based chemotherapy.
 * **HDM-ASCT** - High-dose melphalan followed by autologous stem cell transplantation.
 * **Induction, Phase 1 (P1)** - Induction treatment within 1 year.
