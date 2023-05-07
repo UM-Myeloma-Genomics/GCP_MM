@@ -13,14 +13,14 @@ This website is a tool to calculate risks according to an individual’s charact
 Once submitted, IRMMa calculates risks and the following is displayed:
 
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
-* **Treatment** - Adjusted Risk - Risk of POD or death at 5 years based on selected and alternative first-line treatment combinations and P2 treatments, C.T. and HDM-ASCT.
+* **Treatment** - Adjusted Risk - Risk of POD or death at 5 years based on selected and alternative first-line treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
 **Acronyms/definitions**:
 
 * **IRMMa** - Individualized Risk Model for Myeloma.
-* **MAINT/CONT.TREAT (M.C.T.)** - Maintenance/Continuous Therapy (Defined as either maintenance therapy continuing after induction or a treatment lasting more than 12 months Palumbo et al. JCO 2015).
+* **MAINT/CONT.TREAT (M.C.T.)** - Maintenance/continuous treatment (Defined as either maintenance therapy continuing after induction or a treatment lasting more than 12 months Palumbo et al. JCO 2015).
 * **CHEMO** - Any chemotherapy regiment received except high-dose melphalan. This includes cyclophosphamide, low-dose melphalan, or any platinum-based chemotherapy.
-* **HDM-ASCT** - High-dose Melphalan followed by autologous stem cell transplantation.
+* **HDM-ASCT** - High-dose melphalan followed by autologous stem cell transplantation.
 * **Induction, Phase 1 (P1)** - Induction treatment within 1 year.
 * **Consolidation, Phase 2 (P2)** - Addition of HDM-ASCT and/or continuous treatment or neither upon completion of P1 (without POD).
 * **POD** - Progression of Disease.
