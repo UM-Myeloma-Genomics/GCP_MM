@@ -24,6 +24,9 @@ Once submitted, IRMMa calculates risks and the following is displayed:
 * **Induction, Phase 1 (P1)** - Induction treatment within 1 year.
 * **Consolidation, Phase 2 (P2)** - Addition of HDM-ASCT and/or MAINT/CONT.TREAT or neither upon completion of P1 (without POD).
 * **POD** - Progression of Disease.
+* **Probability of being alive** - Probability of [Alive in P1 + Alive after POD (P1) + Alive in P2 + Alive after POD (P2)].
+* **Probability of POD** - Probability of [Alive after POD (P1) + Alive after POD (P2) + Death after POD (P1) + Death after POD (P2)]. 
+* **Risk of POD and/or deceased** - Probability of [1 - Alive in P2].
 
 **More Information**
 * [Data preparation and genomic classification](https://github.com/UM-Myeloma-Genomics/GCP_MM/tree/main/genomic)
