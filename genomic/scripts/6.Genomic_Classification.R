@@ -6,7 +6,7 @@
 ####     .     .     .   PredictionModel - Genomic Classification   .     .     .     ####
 #        .     .     .                                               .     .     .
 #                                                                                #
-#B###########################################################################Z####
+##################################################################################
 ##################################################################################
 ##################################################################################
 
@@ -17,7 +17,7 @@ library(survival)
 library(ggplot2)
 library(survminer)
 
-WF="~/Desktop/GCP_MM-main/genomic/" # /where/is/the/folder/genomic 
+WF="~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/GCP_MM/genomic/" # /where/is/the/folder/genomic
 
 INPUT=paste(WF,"/matrixDEF_test.txt",sep="")
 #######
