@@ -20,7 +20,7 @@
 
 
 
-WF="~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/genomic/" # /where/is/the/folder/genomic
+WF="~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/GCP_MM/genomic/" # /where/is/the/folder/genomic
 UCSC.HG19=paste(WF,"/Reference/UCSC_hg19_ref_genes.dms",sep="")
 
 
