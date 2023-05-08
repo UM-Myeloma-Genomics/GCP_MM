@@ -51,7 +51,7 @@ table(pres.abs1$hyp.sample)
 matrix.hyper=pres.abs1[,c(1,69:76)]
 rownames(matrix.hyper)=matrix.hyper$Row.names
 matrix.hyper=matrix.hyper[,-1]
-colnames(matrix.hyper)=c("chr3+","chr5+","chr7+","chr9+","chr11+","chr15+","chr19+","chr21+","chr18+)
+colnames(matrix.hyper)=c("chr3+","chr5+","chr7+","chr9+","chr11+","chr15+","chr19+","chr21+","chr18+")
 write.table(matrix.hyper,
             paste(WF,"/output/HRD_chromosomes.txt",sep=""),
             col.names = T,
