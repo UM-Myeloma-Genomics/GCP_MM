@@ -160,10 +160,10 @@ write.table(x1q,
 ######## --- .                 
 #####################
 
-matrix=read.delim(paste(WF,"/input/translocations/commpass_translocations.txt",sep=""),
+translocation=read.delim(paste(WF,"/input/translocations/commpass_translocations.txt",sep=""),
                   stringsAsFactors = F)
 
-for(j in c(1:(ncol(translocation)-1))){
+for(j in c(2:(ncol(translocation)))){
   translocation[,j]=ifelse(translocation[,j] %in% c(1),2,translocation[,j])
 }
 
