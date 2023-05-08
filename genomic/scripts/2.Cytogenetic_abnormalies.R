@@ -47,8 +47,7 @@ for(www in c(69:77)){
   pres.abs1[,www]=ifelse(is.na(pres.abs1[,www]),0,pres.abs1[,www])
 }
 pres.abs1$hyp.sample=ifelse(is.na(pres.abs1$hyp.sample),"No.HRD",pres.abs1$hyp.sample)
-table(pres.abs1$hyp.sample)
-matrix.hyper=pres.abs1[,c(1,69:76)]
+matrix.hyper=pres.abs1[,c(1,69:77)]
 rownames(matrix.hyper)=matrix.hyper$Row.names
 matrix.hyper=matrix.hyper[,-1]
 colnames(matrix.hyper)=c("chr3+","chr5+","chr7+","chr9+","chr11+","chr15+","chr19+","chr21+","chr18+")
@@ -161,9 +160,8 @@ write.table(x1q,
 ######## --- .                 
 #####################
 
-matrix=read.delim(paste(WF,"/input/commpass_info_test.txt",sep=""),
+matrix=read.delim(paste(WF,"/input/translocations/commpass_translocations.txt",sep=""),
                   stringsAsFactors = F)
-translocation=matrix[,c(1,163:165)]
 
 for(j in c(1:(ncol(translocation)-1))){
   translocation[,j]=ifelse(translocation[,j] %in% c(1),2,translocation[,j])
