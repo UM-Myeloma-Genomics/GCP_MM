@@ -19,9 +19,9 @@
 # * * * * * * * * * *         IMPORTANT         * * * * * * * * * * 
 
 
-
 WF="~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/GCP_MM/genomic/" # /where/is/the/folder/genomic
 UCSC.HG19=paste(WF,"/Reference/UCSC_hg19_ref_genes.dms",sep="")
+
 
 
 
@@ -88,7 +88,7 @@ mat=as.data.frame.matrix(table(mut.dnds.gene$sampleID,mut.dnds.gene$gene))
 mat=as.matrix(mat)
 mat=ifelse(mat>1,1,mat)
 mat=as.data.frame(mat)
-samples.NA=matrix[is.na(matrix$SNV_KRAS),"sample"]
+samples.NA=matrix[matrix$Genomic=="No","sample"]
 # - Using the old matrix - NA matrix
 matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
@@ -154,7 +154,7 @@ mat=as.data.frame.matrix(table(mut.dnds.gene$sampleID,mut.dnds.gene$gene))
 mat=as.matrix(mat)
 mat=ifelse(mat>1,1,mat)
 mat=as.data.frame(mat)
-samples.NA=setdiff(mut.dnds$sampleID,rownames(mat))
+samples.NA=matrix[matrix$Genomic=="No","sample"]
 # -  NA matrix
 matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
@@ -215,7 +215,7 @@ ts.genes=ts.genes[,c("UCSC.hg19.knownGene.chrom","UCSC.hg19.knownGene.txStart","
                      "UCSC.hg19.kgXref.geneSymbol")]
 ts.genes=ts.genes %>%
   distinct(UCSC.hg19.kgXref.geneSymbol,.keep_all = T)
-cnv.1=cnv[cnv$sample %in% unique(matrix[matrix$study=="MMRF","sample"]),]
+cnv.1=cnv[cnv$sample %in% unique(matrix$sample),]
 length(unique(cnv.1$sample))
 head(cnv.1)
 head(ts.genes)
@@ -308,7 +308,7 @@ for(i in 1:length(colnames(matrix.cnv))){
 }
 
 
-samples.NA=setdiff(cnv$sample,rownames(matrix.cnv))
+samples.NA=matrix[matrix$Genomic=="No","sample"]
 # -  NA matrix
 matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
@@ -437,7 +437,7 @@ mat=as.data.frame.matrix(table(mut.dnds.gene$sampleID,mut.dnds.gene$gene))
 mat=as.matrix(mat)
 mat=ifelse(mat>1,1,mat)
 mat=as.data.frame(mat)
-samples.NA=setdiff(mut.dnds$sampleID,rownames(mat))
+samples.NA=matrix[matrix$Genomic=="No","sample"]
 # -  NA matrix
 matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
