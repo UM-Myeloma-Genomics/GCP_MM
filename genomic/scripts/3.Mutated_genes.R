@@ -24,7 +24,6 @@ UCSC.HG19=paste(WF,"/Reference/UCSC_hg19_ref_genes.dms",sep="")
 
 
 
-
 ##############################################################################################################################################################
 ######
 # . . . . .                                    PredictionModel - ONCOGENE
@@ -94,7 +93,7 @@ matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
 rownames(matrix.NA)=samples.NA
 # Matrix with the samples without mutations
-samples.0=setdiff(matrix$sample,c(rownames(mat),rownames(matrix.NA)))
+samples.0=setdiff(matrix[matrix$Genomic=="Yes","sample"],c(rownames(mat),rownames(matrix.NA)))
 matrix.0=matrix(0,ncol=ncol(mat),nrow=length(samples.0))
 colnames(matrix.0)=colnames(mat)
 rownames(matrix.0)=samples.0
@@ -160,7 +159,7 @@ matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
 rownames(matrix.NA)=samples.NA
 # - Matrix with the samples without mutations
-samples.0=setdiff(mut.dnds$sampleID,c(rownames(mat),rownames(matrix.NA)))
+samples.0=setdiff(matrix[matrix$Genomic=="Yes","sample"],c(rownames(mat),rownames(matrix.NA)))
 matrix.0=matrix(0,ncol=ncol(mat),nrow=length(samples.0))
 colnames(matrix.0)=colnames(mat)
 rownames(matrix.0)=samples.0
@@ -424,7 +423,7 @@ ukn=ukn[complete.cases(ukn$Gene.Symbol),]
 
 #########################################################################################################
 ########
-######## --- .                                   CoMMpass Cohort                      ######
+######## --- .                                   CoMMpass Cohort                                   ######
 ########
 #########################################################################################################
 # . . . - All mutation file by DNDS analysis
@@ -443,7 +442,7 @@ matrix.NA=matrix(NA,ncol=ncol(mat),nrow=length(samples.NA))
 colnames(matrix.NA)=colnames(mat)
 rownames(matrix.NA)=samples.NA
 # - Matrix with the samples without mutations
-samples.0=setdiff(cnv$sample,c(rownames(mat),rownames(matrix.NA)))
+samples.0=setdiff(matrix[matrix$Genomic=="Yes","sample"],c(rownames(mat),rownames(matrix.NA)))
 matrix.0=matrix(0,ncol=ncol(mat),nrow=length(samples.0))
 colnames(matrix.0)=colnames(mat)
 rownames(matrix.0)=samples.0
