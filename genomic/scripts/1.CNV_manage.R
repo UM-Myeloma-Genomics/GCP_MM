@@ -31,7 +31,7 @@ CHROM.LENGHT=paste(WF,"/Reference/hg19.chrom_sizes.txt",sep="")
 GISTIC.FILE=paste(WF,"/Reference/Genomic_Coordinates_GISTICpeaks.txt",sep="")
 GISTIC.ARMS=paste(WF,"/Reference/arm_level.txt",sep="")
 
-INPUT.PATH=paste(WF,"/input/cnv/All_coMMpass/",sep="")
+INPUT.PATH=paste(WF,"/input/cnv/",sep="")
 OUT.DIR=paste(WF,"/output/",sep="")
 PERCENTAGE=0.60 #(percentage of chromosome with gain/amp [for hyperdiploid chromosomes])
 
