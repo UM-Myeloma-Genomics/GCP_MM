@@ -741,9 +741,6 @@ rownames(hyper1)=c(1:length(hyper1$sample))
 for(q in c(4:12,16:24)){
   hyper1[,q]=as.numeric(as.character(hyper1[,q]))
 }
-```
-Seventh step, we labeled the hyperdiploidy samples checking the 8 hyperdiploid chromosomes. Then, we created an object with all non-hyperdiploid samples.
-```{r,message=F,warning=FALSE}
 SAMPLE=unique(hyper1$sample)
 hyper2=NULL
 for(qq in 1:length(SAMPLE)){
