@@ -20,7 +20,7 @@
 
 
 
-WF="~/Box/Bachisio/Documents/Project/MM/Prediction_Model/genomic/" # /where/is/the/folder/genomic 
+WF="~/Google Drive/My Drive/Bachisio/Documents/Project/MM/Prediction_Model/GCP_MM/genomic/" # /where/is/the/folder/genomic 
 ITER=10 # mmsig parameter: 1000 iterations recommended for stable results
 
 
