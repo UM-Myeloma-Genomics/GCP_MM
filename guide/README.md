@@ -24,11 +24,12 @@ Once submitted, IRMMa calculates risks and the following is displayed:
 * **Induction, Phase 1 (P1)** - Induction treatment within 1 year.
 * **Post-Induction, Phase 2 (P2)** - Addition of HDM-ASCT and/or MAINT/CONT.TREAT or neither upon completion of P1 (without POD).
 * **POD** - Progression of Disease.
-* **Probability of being alive** - Probability of [Alive in P1 + Alive after POD (P1) + Alive in P2 + Alive after POD (P2)].
-* **Probability of POD** - Probability of [Alive after POD (P1) + Alive after POD (P2) + Death after POD (P1) + Death after POD (P2)]. 
-* **Risk of POD and/or deceased** - Probability of [Alive in P1 + Alive after POD (P1) + Death after POD (P1) + Death in P2 + Alive after POD (P2) + Death after POD (P2)]
-* In **Treatment-Adjusted Risk** plot, for each data point, we also provide the variance **var** which is calculated as the difference in risk between query selected P1, P2 therapy and alternative therapy shown as you hover. $\`var = risk<sub>treat</sub> - risk<sub>query</sub> \over risk<sub>query</sub>\`$.
+* **Probability of being alive** - Probability of *Alive in P1 + Alive after POD (P1) + Alive in P2 + Alive after POD (P2)*.
+* **Probability of POD** - Probability of *Alive after POD (P1) + Alive after POD (P2) + Death after POD (P1) + Death after POD (P2)*. 
+* **Risk of POD and/or deceased** - Probability of *Alive in P1 + Alive after POD (P1) + Death after POD (P1) + Death in P2 + Alive after POD (P2) + Death after POD (P2)*
+* In **Treatment-Adjusted Risk** plot, for each therapy $i$ where $i$ are all the combination therapies that is present in our knowledge bank, we provide the variance **var (%)** as the difference in risk between query ${q}$ selected therapy in P1, P2 and alternative therapy $i$. $var = {risk_i - risk_q \over risk_q}\times100$. Thus negative var indicates reduced risk of POD and/or death in comparison to query selected therapy, positive indicates worse risk of POD and/or death, 0 indicates risk of query $q$. 
 
 **More Information**
 * [Data preparation and genomic classification](https://github.com/UM-Myeloma-Genomics/GCP_MM/tree/main/genomic)
 * [IRMMa](https://github.com/UM-Myeloma-Genomics/GCP_MM/tree/main/prognostication)
+
