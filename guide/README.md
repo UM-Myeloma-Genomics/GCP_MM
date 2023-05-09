@@ -13,7 +13,7 @@ This website is a tool to calculate risks according to an individual’s charact
 Once submitted, IRMMa calculates risks and the following is displayed:
 
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
-* **Treatment-Adjusted Risk** - Risk of POD or death at 5 years based on selected and alternative first-line treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
+* **Treatment-Adjusted Risk** - Risk of POD and/or death at 5 years based on selected and alternative P1 treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
 **Acronyms/definitions**:
 
@@ -27,6 +27,7 @@ Once submitted, IRMMa calculates risks and the following is displayed:
 * **Probability of being alive** - Probability of [Alive in P1 + Alive after POD (P1) + Alive in P2 + Alive after POD (P2)].
 * **Probability of POD** - Probability of [Alive after POD (P1) + Alive after POD (P2) + Death after POD (P1) + Death after POD (P2)]. 
 * **Risk of POD and/or deceased** - Probability of [Alive in P1 + Alive after POD (P1) + Death after POD (P1) + Death in P2 + Alive after POD (P2) + Death after POD (P2)]
+* In Treatment-Adjusted Risk plot, for each data point, we also provide the variance **var** which is calculated as the difference in risk between query selected P1, P2 therapy and alternative therapy shown as you hover over. 
 
 **More Information**
 * [Data preparation and genomic classification](https://github.com/UM-Myeloma-Genomics/GCP_MM/tree/main/genomic)
