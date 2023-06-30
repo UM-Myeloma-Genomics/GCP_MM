@@ -8,12 +8,17 @@ Please refer to [recommendations](recommendations.pdf) on what queries might pro
 
 ### IRMMa Risk Calculator manual
 
-This website is a tool to calculate risks according to an individual’s characteristics. The Attribute Form is the set of features used to calculate multistate/treatment risks. *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are mandatory fields. Please select them in the section to the left by clicking one of the section drop-downs. If there is no selection on *IGH-Translocations* or *Genomics*, the default is NA. When you have completed your selections, press the *Submit* button. Of note, the minimum number of cases to make a prediction is 1.
+This website is a tool to calculate risks according to an individual’s characteristics. 
+
+* Please first complete the Attribute Form which is the set of features used to calculate multistate/treatment risks. *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are mandatory fields. If there is no selection on *IGH-Translocations* or *Genomics*, the default is NA. 
+* When you have completed your selections, press the *Submit* button. Of note, the threshold for  minimum number of cases that IRMMa utilizes to make a prediction is 1.
 
 Once submitted, IRMMa calculates risks and the following is displayed:
 
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
 * **Treatment-Adjusted Risk** - Risk of POD and/or death at 5 years based on selected and alternative P1 treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
+
+Please refer to [risks](risks.pdf) on where the risks lie of the query with respect to the knowledge bank.
 
 **Acronyms/definitions**:
 
