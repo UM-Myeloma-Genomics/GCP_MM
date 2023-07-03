@@ -1,34 +1,33 @@
 ## Overview
 
 <p align="center">
-  <img width="900" height="600" src="https://github.com/UM-Myeloma-Genomics/GCP_MM/blob/main/guide/git_overview.png?raw=true">
+  <img width="980" height="600" src="https://github.com/UM-Myeloma-Genomics/GCP_MM/blob/main/guide/figs/git_overview.png?raw=true">
 </p>
 
 ## User guide for website
 
-The website can be accessed [here](https://irmma-risk-calculator.miami.edu).
+The website can be accessed at https://irmma-risk-calculator.miami.edu
 
 For a detailed breakdown of the dataset across various states included in our knowledge bank, please refer to Figure 3a in the paper.
 
-Please refer to ![recommendations](recommendations.pdf) on what queries might provide back results by IRMMa.
+Please refer to ![recommendations](./figs/recommendations.png) on what queries might provide back results by IRMMa.
 
 ### IRMMa Risk Calculator manual
 
 This website is a tool to calculate risks according to an individual’s characteristics. 
 
-* Please first complete the Attribute Form which is the set of features used to calculate multistate/treatment risks. *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are mandatory fields. If there is no selection on *IGH-Translocations* or *Genomics*, the default is NA. 
+* Please first complete the Attribute Form which is the set of features used to calculate multistate/treatment risks. <br /> *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are mandatory fields. If there is no selection on *IGH-Translocations* or *Genomics*, the default is NA. 
 * When you have completed your selections, press the *Submit* button. Of note, the threshold for  minimum number of cases that IRMMa utilizes to make a prediction is 1.
 
-Once submitted, IRMMa calculates risks and the following is displayed:
+**Once submitted, IRMMa calculates risks and the following is displayed:**
 
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
 * **Treatment-Adjusted Risk** - Risk of POD and/or death at 5 years based on selected and alternative P1 treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
-Please refer to [risks](risks.pdf) on where the risks lie of the query with respect to the knowledge bank.
+**For interpretation of risks**, please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.
 <p align="center">
-  <img width="460" height="300" src="./git_risks.pdf">
+  <img width="460" height="300" src="./figs/risks.png">
 </p>
-
 
 **Acronyms/definitions**:
 
