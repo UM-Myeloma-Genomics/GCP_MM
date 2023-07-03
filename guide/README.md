@@ -10,7 +10,10 @@ The website can be accessed at https://irmma-risk-calculator.miami.edu
 
 For a detailed breakdown of the dataset across various states included in our knowledge bank, please refer to Figure 3a in the paper.
 
-Please refer to ![recommendations](./figs/recommendations.png) on what queries might provide back results by IRMMa.
+For P1/P2 Age, ISS, therapy query suggestions for IRMMa,
+<p align="center">
+  <img width="600" height="500" src="./figs/recommendations.png">
+</p>
 
 ### IRMMa Risk Calculator manual
 
@@ -26,7 +29,7 @@ This website is a tool to calculate risks according to an individual’s charact
 
 **For interpretation of risks**, please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.
 <p align="center">
-  <img width="460" height="300" src="./figs/risks.png">
+  <img width="600" height="300" src="./figs/risks.png">
 </p>
 
 **Acronyms/definitions**:
