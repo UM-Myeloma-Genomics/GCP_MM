@@ -1,3 +1,10 @@
+## Overview
+The schematic diagram for IRMMa as a research tool.
+
+<p align="center">
+  <img width="460" height="300" src="./git_overview.pdf">
+</p>
+
 ## User guide for website
 
 The website can be accessed [here](https://irmma-risk-calculator.miami.edu).
@@ -19,6 +26,10 @@ Once submitted, IRMMa calculates risks and the following is displayed:
 * **Treatment-Adjusted Risk** - Risk of POD and/or death at 5 years based on selected and alternative P1 treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
 Please refer to [risks](risks.pdf) on where the risks lie of the query with respect to the knowledge bank.
+<p align="center">
+  <img width="460" height="300" src="./git_risks.pdf">
+</p>
+
 
 **Acronyms/definitions**:
 
