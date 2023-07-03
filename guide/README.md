@@ -1,8 +1,7 @@
 ## Overview
-The schematic diagram for IRMMa as a research tool.
 
 <p align="center">
-  <img width="600" height="600" src="https://github.com/UM-Myeloma-Genomics/GCP_MM/blob/main/guide/git_overview.pdf">
+  <img width="900" height="600" src="https://github.com/UM-Myeloma-Genomics/GCP_MM/blob/main/guide/git_overview.pdf?raw=true">
 </p>
 
 ## User guide for website
