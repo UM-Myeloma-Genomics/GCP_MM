@@ -29,7 +29,7 @@ This website is a tool to calculate risks according to an individual’s charact
 
 **For interpretation of risks**, please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.
 <p align="center">
-  <img width="680" height="300" src="./figs/risks.png">
+  <img width="720" height="300" src="./figs/risks.png">
 </p>
 
 **Acronyms/definitions**:
