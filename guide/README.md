@@ -10,7 +10,7 @@ The website can be accessed at https://irmma-risk-calculator.miami.edu
 
 For a detailed breakdown of the dataset across various states included in our knowledge bank, please refer to Figure 3a in the paper.
 
-For P1/P2 Age, ISS, therapy query suggestions for IRMMa,
+For query suggestions based on what IRMMa has seen and learned from,
 <p align="center">
   <img width="600" height="500" src="./figs/recommendations.png">
 </p>
