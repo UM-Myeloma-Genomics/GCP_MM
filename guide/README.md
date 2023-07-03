@@ -10,7 +10,7 @@ The website can be accessed [here](https://irmma-risk-calculator.miami.edu).
 
 For a detailed breakdown of the dataset across various states included in our knowledge bank, please refer to Figure 3a in the paper.
 
-Please refer to [recommendations](recommendations.pdf) on what queries might provide back results by IRMMa.
+Please refer to ![recommendations](recommendations.pdf) on what queries might provide back results by IRMMa.
 
 ### IRMMa Risk Calculator manual
 
