@@ -19,7 +19,7 @@ For P1/P2 Age, ISS, therapy query suggestions for IRMMa,
 
 This website is a tool to calculate risks according to an individual’s characteristics. 
 
-* Please first complete the Attribute Form which is the set of features used to calculate multistate/treatment risks. <br /> *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are mandatory fields. If there is no selection on *IGH-Translocations* or *Genomics*, the default is NA. 
+* Please first complete the Attribute Form which is the set of features used to calculate multistate/treatment risks. <br /> *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are **mandatory fields**. <br /> If there is no selection on *IGH-Translocations* or *Genomics*, the default is NA. 
 * When you have completed your selections, press the *Submit* button. Of note, the threshold for  minimum number of cases that IRMMa utilizes to make a prediction is 1.
 
 **Once submitted, IRMMa calculates risks and the following is displayed:**
