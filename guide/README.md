@@ -6,7 +6,7 @@
 
 # User guide for website
 
-The website can be accessed at https://irmma-risk-calculator.miami.edu
+The website is a tool for research and can be accessed at https://irmma-risk-calculator.miami.edu
 
 For a detailed breakdown of the dataset across various states included in our knowledge bank, please refer to Figure 3a in the paper.
 
@@ -17,7 +17,7 @@ For query suggestions based on what IRMMa has seen and learned from,
 
 ## IRMMa Risk Calculator manual
 
-This website is a tool to calculate risks according to an individual’s characteristics. 
+### Calculate risks according to an individual’s characteristics 
 
 * Please first complete the Attribute Form which is the set of features used to calculate multistate/treatment risks. <br /> *Age* (*Demographics*), *ISS*, and Induction (Phase 1) (*Therapy*) are **mandatory fields**. <br /> **If there is no selection** on *IGH-Translocations* or *Genomics*, the **default is NA**. 
 * When you have completed your selections, press the **Submit** button. Of note, the threshold for  minimum number of cases that IRMMa utilizes to make a prediction is 1.
@@ -27,7 +27,8 @@ This website is a tool to calculate risks according to an individual’s charact
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
 * **Treatment-Adjusted Risk** - Risk of POD and/or death at 5 years based on selected and alternative P1 treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
-**For interpretation of risks**, please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.
+### For interpretation of risks
+**Please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.**
 <p align="center">
   <img width="720" height="300" src="./figs/risks.png">
 </p>
