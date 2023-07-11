@@ -57,16 +57,16 @@ This website is a tool to calculate risks according to an individual’s charact
 <table><tr>
 <td> 
   <p align="left" style="padding: 5px">
-    <img src="./figs/ex1_2.png" width="550" height="300" title="Multistate high risk">
-    <em style="color: grey">Forwarding (Anahtarlama)</em>
-    <img src="./figs/ex1_3.png" width="550" height="200" title="Treatment-adjusted high risk">
-    <em style="color: grey">Forwarding (Anahtarlama)</em>
+    <em style="color: blue">This example is a newly diagnosed multiple myeloma, <65 years old, ISS1, hyperdiploid, with del13q and t(11;14)(CCND1;IGH) without any high-risk features <br> The probability to be alive an in remission are higher than the previous case and within the 4th quartile of our distribution of risk, reflecting a favorable outcome. </em>
+    <img src="./figs/ex2_1.png" width="550" height="300" title="Multistate low risk">
+    <em style="color: blue">Looking at the treatment variance results, IRMMa predicts that this patient might benefit from consolidation strategies, in particular with HDM-ASCT.</em>
+    <img src="./figs/ex2_2.png" width="550" height="200" title="Treatment-adjusted low risk">
   </p> 
 </td>
 <td> 
   <p align="right">
-    <img src="./figs/ex2_1.png" width="550" height="300" title="Multistate low risk">
-    <img src="./figs/ex2_2.png" width="550" height="200" title="Treatment-adjusted low risk">
+    <img src="./figs/ex1_2.png" width="550" height="300" title="Multistate high risk">
+    <img src="./figs/ex1_3.png" width="550" height="200" title="Treatment-adjusted high risk">
   </p> 
 </td>
 </tr></table>
