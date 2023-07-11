@@ -52,13 +52,15 @@ This website is a tool to calculate risks according to an individual’s charact
 </p>
 
 ### High & Low Risk profile predictions
-**Below we summarize two examples: one for a low and one for a high risk patients**
+**Below we summarize two examples: one for a low and another for a high risk patient**
 
 <table><tr>
 <td> 
   <p align="left" style="padding: 5px">
     <img src="./figs/ex1_2.png" width="550" height="300" title="Multistate high risk">
+    test1
     <img src="./figs/ex1_3.png" width="550" height="200" title="Treatment-adjusted high risk">
+    test2
   </p> 
 </td>
 <td> 
