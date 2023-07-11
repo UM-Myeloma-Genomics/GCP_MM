@@ -34,7 +34,7 @@ This website is a tool to calculate risks according to an individual’s charact
 
 ## Example usage
 
-![alt-text-1](./figs/ex1_2.png "High risk" =50%x) ![alt-text-2](ex1_3.png "Low risk" =50%x)
+![alt-text-1](./figs/ex1_2.png "High risk") ![alt-text-2](./figs/ex1_3.png "Low risk")
 
 
 **Acronyms/definitions**:
