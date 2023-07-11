@@ -34,11 +34,14 @@ This website is a tool to calculate risks according to an individual’s charact
 
 ## Example usage
 
-|![alt-text-1](./figs/ex1_2.png "High risk") | ![alt-text-2](./figs/ex2_1.png "Low risk")|
-// space 1
-// space 2
-|![alt-text-1](./figs/ex1_3.png "High risk") | ![alt-text-2](./figs/ex2_2.png "Low risk")|
-// space 3
+![alt-text-1](./figs/ex1_2.png "High risk") ![alt-text-2](./figs/ex2_1.png "Low risk")
+
+![alt-text-1](./figs/ex1_3.png "High risk") ![alt-text-2](./figs/ex2_2.png "Low risk")
+
+<p align="center">
+  <img src="./figs/ex1_2.png" width="350" title="High Risk">
+  <img src="./figs/ex1_3.png" width="350" alt="accessibility text">
+</p>
 
 
 **Acronyms/definitions**:
