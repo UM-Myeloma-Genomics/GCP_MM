@@ -33,10 +33,13 @@ This website is a tool to calculate risks according to an individual’s charact
 </p>
 
 ## Example usage
+<p align="center">
+  <img width="720" height="300" src="./figs/ex1_1.png">
+</p>
 
-![alt-text-1](./figs/ex1_1.png "example high risk") 
-
-![alt-text-1](./figs/ex1_3.png "example high risk")
+<p align="center">
+  <img width="720" height="300" src="./figs/ex1_3.png">
+</p>
 
 
 <table><tr>
