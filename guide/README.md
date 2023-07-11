@@ -38,12 +38,22 @@ This website is a tool to calculate risks according to an individual’s charact
 
 ![alt-text-1](./figs/ex1_3.png "High risk") ![alt-text-2](./figs/ex2_2.png "Low risk")
 
-<p align="left">
-  <img src="./figs/ex1_2.png" width="550" height="300" title="High risk">
-  <img src="./figs/ex2_1.png" width="550" height="300" title="Low risk">
-</p>
+<table><tr>
+<td> 
+  <p align="left" style="padding: 10px">
+    <img src="./figs/ex1_2.png" width="550" height="300" title="High risk">
+    <img src="./figs/ex2_1.png" width="550" height="300" title="Low risk">
+  </p> 
+</td>
+<td> 
+  <p align="right">
+    <img src="./figs/ex1_2.png" width="550" height="300" title="High risk">
+    <img src="./figs/ex2_1.png" width="550" height="300" title="Low risk">
+  </p> 
+</td>
+</tr></table>
 
-<p align="right">
+<p align="left">
   <img src="./figs/ex1_2.png" width="550" height="300" title="High risk">
   <img src="./figs/ex2_1.png" width="550" height="300" title="Low risk">
 </p>
