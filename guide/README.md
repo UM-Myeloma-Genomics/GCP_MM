@@ -39,8 +39,8 @@ This website is a tool to calculate risks according to an individual’s charact
 ![alt-text-1](./figs/ex1_3.png "High risk") ![alt-text-2](./figs/ex2_2.png "Low risk")
 
 <p align="center">
-  <img src="./figs/ex1_2.png" width="350" title="High Risk">
-  <img src="./figs/ex1_3.png" width="350" alt="accessibility text">
+  <img src="./figs/ex1_2.png" width="500" height="400" title="High risk">
+  <img src="./figs/ex2_1.png" width="500" height="400" title="Low risk">
 </p>
 
 
