@@ -47,17 +47,11 @@ This website is a tool to calculate risks according to an individual’s charact
 </td>
 <td> 
   <p align="right">
-    <img src="./figs/ex1_2.png" width="550" height="300" title="High risk">
-    <img src="./figs/ex2_1.png" width="550" height="300" title="Low risk">
+    <img src="./figs/ex1_3.png" width="550" height="300" title="High risk">
+    <img src="./figs/ex2_2.png" width="550" height="300" title="Low risk">
   </p> 
 </td>
 </tr></table>
-
-<p align="left">
-  <img src="./figs/ex1_2.png" width="550" height="300" title="High risk">
-  <img src="./figs/ex2_1.png" width="550" height="300" title="Low risk">
-</p>
-
 
 **Acronyms/definitions**:
 
