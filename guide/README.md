@@ -34,13 +34,13 @@ This website is a tool to calculate risks according to an individual’s charact
 
 ## Example
 
-**IRMMa web interface provide individualized risk estimates for each patient** 
+**IRMMa web interface provide individualized risk estimates for each patient.** 
 * As reported above IRMMa´s knowledge bank predictions at 5 years for overall survival range from 40 to 80%, and for event free survival from 10 to 55%. 
 * A risk of being in remission and alive at 5 years of 50% might seem low and concerning, but it is actually sign of very favorable outcomes according to IRMMa performances and distribution of risk across different states. 
 * In fact, IRMMa lowest risk of PD is 55%. 
 
 ### State Risk
-* Example of the different states for a given query/profile.
+* Example of the different states for a given query/profile. Moving the mouse cursor along the x-axis provides probabilities across states over time.
 <p align="center">
   <img width="720" height="300" src="./figs/ex1_1.png">
 </p>
@@ -51,8 +51,8 @@ This website is a tool to calculate risks according to an individual’s charact
   <img width="720" height="300" src="./figs/ex1_3.png">
 </p>
 
-### High & Low Risk profile predictions
-**Below we summarize two examples: one for a low and another for a high risk patient**
+### Low & High risk profile predictions
+**Below we summarize two examples: one for a low and another for a high risk patient.**
 
 <table><tr>
 <td> 
