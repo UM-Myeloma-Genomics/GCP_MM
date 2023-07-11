@@ -36,7 +36,7 @@ For query suggestions based on what IRMMa has seen and learned from,
 ## Example
 
 **IRMMa web interface provide individualized risk estimates for each patient.** 
-* As reported above IRMMa´s knowledge bank predictions of probabilities at 5 years to be alive range from 40 to 80%, and 10 to 55% to be alive and remission. 
+* As reported above IRMMa´s knowledge bank predictions of probabilities at 5 years to be alive range from 40 to 80%, and 10 to 55% to be in remission and alive. 
 * A risk of being in remission and alive at 5 years of 50% might seem low and concerning, but it is actually sign of very favorable outcomes according to IRMMa performances and distribution of risk across different states. 
 * In fact, IRMMa lowest risk of PD is 55%. 
 
