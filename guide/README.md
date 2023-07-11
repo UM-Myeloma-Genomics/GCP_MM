@@ -69,16 +69,7 @@ This website is a tool to calculate risks according to an individual’s charact
 </td>
 </tr></table>
 
-<table><tr>
-<td>
-  <p align="left">
-    <em style="color: blue">This example is a newly diagnosed multiple myeloma, <65 years old, ISS1, hyperdiploid, with del13q and t(11;14)(CCND1;IGH) without any high-risk features <br> The probability to be alive an in remission are higher than the previous case and within the 4th quartile of our distribution of risk, reflecting a favorable outcome. <br> Looking at the treatment variance results, IRMMa predicts that this patient might benefit from consolidation strategies, in particular with HDM-ASCT.</em>
-  </p>
-  <p align="right">
-    <em style="color: blue">The patient below is a newly diagnosed multiple myeloma, with age>75 years, ISS3, high APOBEC and presence of chromothripsis treated with lenalidomide dexamethasone. <br> For this patient the probability of being alive and in remission at 5-years is 25.85% vs 66.14% of being progressed. These numbers reflect a high-risk disease. </em>
-  </p>
-</td>
-</tr></table>
+|| This example is a newly diagnosed multiple myeloma, <65 years old, ISS1, hyperdiploid, with del13q and t(11;14)(CCND1;IGH) without any high-risk features <br> The probability to be alive an in remission are higher than the previous case and within the 4th quartile of our distribution of risk, reflecting a favorable outcome. <br> Looking at the treatment variance results, IRMMa predicts that this patient might benefit from consolidation strategies, in particular with HDM-ASCT. |  The patient below is a newly diagnosed multiple myeloma, with age>75 years, ISS3, high APOBEC and presence of chromothripsis treated with lenalidomide dexamethasone. <br> For this patient the probability of being alive and in remission at 5-years is 25.85% vs 66.14% of being progressed. These numbers reflect a high-risk disease. ||
 
 ## Acronyms/definitions
 
