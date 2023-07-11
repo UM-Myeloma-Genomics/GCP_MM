@@ -58,9 +58,9 @@ This website is a tool to calculate risks according to an individual’s charact
 <td> 
   <p align="left" style="padding: 5px">
     <img src="./figs/ex1_2.png" width="550" height="300" title="Multistate high risk">
-    test1
+    <em style="color: grey">Forwarding (Anahtarlama)</em>
     <img src="./figs/ex1_3.png" width="550" height="200" title="Treatment-adjusted high risk">
-    test2
+    <em style="color: grey">Forwarding (Anahtarlama)</em>
   </p> 
 </td>
 <td> 
