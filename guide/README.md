@@ -34,20 +34,21 @@ This website is a tool to calculate risks according to an individual’s charact
 
 ## Example usage
 
-![alt-text-1](./figs/ex1_2.png "High risk") ![alt-text-2](./figs/ex2_1.png "Low risk")
+![alt-text-1](./figs/ex1_1.png "example high risk") 
 
-![alt-text-1](./figs/ex1_3.png "High risk") ![alt-text-2](./figs/ex2_2.png "Low risk")
+![alt-text-1](./figs/ex1_3.png "example high risk")
+
 
 <table><tr>
 <td> 
-  <p align="left" style="padding: 10px">
+  <p align="left" style="padding: 5px">
     <img src="./figs/ex1_2.png" width="550" height="300" title="Multistate high risk">
-    <img src="./figs/ex1_3.png" width="550" height="200" title="Multistate high risk">
+    <img src="./figs/ex1_3.png" width="550" height="200" title="Treatment-adjusted high risk">
   </p> 
 </td>
 <td> 
   <p align="right">
-    <img src="./figs/ex2_1.png" width="550" height="300" title="Treatment-adjusted low risk">
+    <img src="./figs/ex2_1.png" width="550" height="300" title="Multistate low risk">
     <img src="./figs/ex2_2.png" width="550" height="200" title="Treatment-adjusted low risk">
   </p> 
 </td>
