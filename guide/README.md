@@ -1,7 +1,7 @@
 # Overview
 
 <p align="center">
-  <img width="980" height="600" src="https://github.com/UM-Myeloma-Genomics/GCP_MM/blob/main/guide/figs/git_overview.png?raw=true">
+  <img width="980" height="600" src="https://github.com/UM-Myeloma-Genomics/GCP_MM/blob/main/guide/figs/github_overview.png?raw=true">
 </p>
 
 # User guide for website
@@ -36,9 +36,9 @@ For query suggestions based on what IRMMa has seen and learned from,
 ## Example
 
 **IRMMa web interface provide individualized risk estimates for each patient.** 
-* As reported above IRMMa´s knowledge bank predictions of probabilities at 5 years to be alive range from 40 to 80%, and 10 to 55% to be in remission and alive. 
+* As reported above IRMMa´s knowledge bank predictions of probabilities at 5 years to be alive range from 40 to 80%, 10 to 55% to be in free of POD and 5-47% to be alive in remission.
 * A risk of being in remission and alive at 5 years of 50% might seem low and concerning, but it is actually sign of very favorable outcomes according to IRMMa performances and distribution of risk across different states. 
-* In fact, IRMMa lowest risk of PD is 55%. 
+* In fact, we see IRMMa's highest EFS to be 55%. 
 
 ### State Risk
 * Example of the different states for a given query/profile. Moving the mouse cursor along the x-axis provides probabilities across states over time.
