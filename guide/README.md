@@ -30,7 +30,7 @@ For query suggestions based on what IRMMa has seen and learned from,
 ### For interpretation of risks
 **Please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.**
 <p align="center">
-  <img width="900" height="300" src="./figs/risks.png">
+  <img width="900" height="400" src="./figs/risks.png">
 </p>
 
 ## Example
