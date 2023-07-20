@@ -27,7 +27,7 @@ For query suggestions based on what IRMMa has seen and learned from,
 * **State Risk** - Multistate risks from start of P1 up until 5 years.
 * **Treatment-Adjusted Risk** - Risk of POD and/or death at 5 years based on selected and alternative P1 treatment combinations and P2 treatments, MAINT/CONT.TREAT and HDM-ASCT.
 
-### For interpretation of risks
+### For interpretation of predictions by IRMMa
 **Please refer to figure below, where the risks are of the query with respect to the knowledge bank scores.**
 <p align="center">
   <img width="900" height="400" src="./figs/risks.png">
