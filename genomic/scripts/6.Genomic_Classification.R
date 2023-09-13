@@ -203,7 +203,7 @@ all_gen$clusters_fra[all_gen$t_MAF>0 & all_gen$SNV.HS_DIS3==0 & all_gen$APOBEC<2
 
 all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$HRD==1 & all_gen$deletions==0]<-"E_CCND1_HRD"
 all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$SNV_KRAS>0 & all_gen$deletions==0]<-"F_CCND1_RAS"
-all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$SNV_BRAS>0 & all_gen$deletions==0]<-"F_CCND1_RAS"
+all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$SNV_BRAF>0 & all_gen$deletions==0]<-"F_CCND1_RAS"
 all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$SNV_NRAS>0 & all_gen$deletions==0]<-"F_CCND1_RAS"
 all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$SNV_FGFR3>0 & all_gen$deletions==0]<-"F_CCND1_RAS"
 all_gen$clusters_fra[all_gen$t_CCND1>0 & all_gen$deletions>0 ]<-"G_CCND1_complex"
