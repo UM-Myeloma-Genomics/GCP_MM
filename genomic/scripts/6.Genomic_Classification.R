@@ -193,7 +193,10 @@ all_gen$clusters_fra[all_gen$HRD==1 &
 all_gen$clusters_fra[all_gen$HRD==1 &
                        all_gen$deletions==1 & all_gen$add_gains==0 & all_gen$clusters_fra==0 & all_gen$t_MMSET==0]<- "C_HRD_deletions"
 
-all_gen$clusters_fra[all_gen$HRD==1 & all_gen$clusters_fra==0 & all_gen$t_MMSET==0]<- "C_HRD_deletions"
+#all_gen$clusters_fra[all_gen$HRD==1 & all_gen$clusters_fra==0 & all_gen$t_MMSET==0]<- "C_HRD_deletions"
+all_gen$clusters[all_gen$HRD==1 & all_gen$clusters==0 & all_gen$add_gains==0 & all_gen$t_MMSET==0 & all_gen$t_CCND1==0 & all_gen$t_MAF==0]<- "A_HRD_RAS"
+
+
 # 
 
 table(all_gen$clusters_fra, all_gen$HRD)
